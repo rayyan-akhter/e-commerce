@@ -5,14 +5,21 @@ import TopHeader from "./components/topHeader/topHeader";
 import { Home } from "./page/home/home";
 import { SingleProduct } from "./page/product/singleProduct";
 import Register from "./page/register/register";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Cart } from "./page/cart/cart";
 
 function App() {
   const [user, setUser] = useState({});
   const [product, setProduct] = useState({});
 
-    return (
+  useEffect(() => {
+
+    if (localStorage.getItem("user"))
+      return setUser(JSON.parse(localStorage.getItem("user")));
+
+  }, []);
+
+  return (
     <>
       <Router>
         <Routes>
@@ -20,8 +27,8 @@ function App() {
             path="/register"
             element={
               <>
-                <TopHeader  user={user} />
-                <Register />
+                <TopHeader user={user} />
+                <Register  user={user} setUser={setUser} />
               </>
             }
           />
@@ -31,7 +38,7 @@ function App() {
             element={
               <>
                 <TopHeader />
-                <Header user={user} product={product} />
+                <Header user={user} product={product} setUser={setUser} />
                 <Home user={user} setUser={setUser} />
               </>
             }
@@ -41,19 +48,20 @@ function App() {
             element={
               <>
                 <TopHeader />
-                <Header user={user}/>
-                <SingleProduct product={product} setProduct={setProduct}  />
+                <Header user={user} setUser={setUser} />
+                <SingleProduct product={product} setProduct={setProduct} />
               </>
             }
           />
-          <Route path="/cart"
-          element={
-            <>
-              <TopHeader />
-                <Header user={user} />
+          <Route
+            path="/cart"
+            element={
+              <>
+                <TopHeader />
+                <Header user={user} setUser={setUser} />
                 <Cart product={product} />
-            </>
-          }
+              </>
+            }
           />
         </Routes>
       </Router>

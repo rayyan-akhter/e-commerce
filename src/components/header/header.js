@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
 import "./header.css";
-const Header = ({user}) => {
+const Header = ({user,setUser}) => {
   const navigation = useNavigate()
   const logOut = ()=>{
     localStorage.removeItem("user");
@@ -11,10 +11,18 @@ const Header = ({user}) => {
     localStorage.removeItem("product")
     navigation("/register")
   }
+  const handleCart =()=>{
+  if(!user?.name){
+  alert("login first")
+  navigation("/register");}
+else{
+  navigation("/cart")  
+}
+  }
   return (
     <div className="header">
       <div className="left">
-        <h2>{user.name}</h2>
+        <h2 className="name">{user.name}</h2>
       </div>
       <div className="middle">
         <div className="middleLeft">
@@ -32,7 +40,7 @@ const Header = ({user}) => {
       </div>
       <div className="right">
         <AiOutlineHeart size={20} />
-        <AiOutlineShoppingCart size={20} onClick={()=>navigation("/cart")} className="cartIcon" />
+        <AiOutlineShoppingCart size={20} onClick={handleCart} className="cartIcon" />
         <MdLogout size={20} onClick={()=>logOut()} className="logout" />
       </div>
     </div>
