@@ -1,0 +1,116 @@
+.cartPage{
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
+    width: 1385px;
+    gap: 40px;
+}
+
+.cartNavigation{
+    display: flex;
+    margin-top: 50px;
+}
+.cartPagetop{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+ 
+
+}
+.cartProductTitle{
+    display: grid;
+    grid-template-columns: repeat(4,1fr );
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    height: 30px;
+    align-items: center;
+   
+}
+.cartProductDetails{
+    display: grid;
+    padding-left: 10px;
+    grid-template-columns: repeat(4,1fr );
+    text-align: center;
+    align-items: center;
+    height: 60px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+.cartProductInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+.CartProductImage{
+    height:35px;
+    width: 35px;
+    object-fit: contain;
+    
+}
+.cartUpdateBtnContainer{
+
+    display: flex;
+    justify-content: space-between;
+}
+.updateBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    height: 50px;
+    width: 150px;
+    border: solid 1px gray;
+    border-radius: 4px;
+}
+
+.cartCoupon{
+    height: 50px;
+    width: 250px;
+    padding-left: 10px;
+
+}
+.cartPageBottom{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+
+}
+.cartPageBottomLeft{
+    display: flex;
+    gap: 20px;
+}
+.couponBtn{
+    width: 150px;
+    height: 50px;
+    background-color: rgb(247, 48, 48);
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+.cartPageBottomRight{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 10px;
+    border: solid 1px black;
+    padding: 25px 15px;
+}
+.cartSubTotal{
+    display: flex;
+    justify-content: space-between;
+     /* gap: 50px; */
+}
+.CartProcessToCheckOutContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.CartProcessToCheckOut{
+    width: 250px;
+    height: 50px;
+    background-color: rgb(247, 48, 48);
+    color: white;
+    border: none;
+    border-radius: 4px;
+}

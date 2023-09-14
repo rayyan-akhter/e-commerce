@@ -1,0 +1,106 @@
+.sale {
+  margin-left: 70px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+.saleTop {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.saleBox {
+  width: 20px;
+  height: 40px;
+  background-color: red;
+  border-radius: 5px;
+}
+.saleBoxDay {
+  color: red;
+}
+.saleCenter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.saleCenterLeft {
+  display: flex;
+  gap: 70px;
+}
+.saleCenterRight {
+  padding-right: 70px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.saleBottom {
+  margin-top: 20px;
+  display: flex;
+  gap: 30px;
+  overflow: scroll;
+}
+.saleBottom::-webkit-scrollbar{
+    display: none;
+  }
+.saleProduct {
+    width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  cursor: pointer;
+  
+}
+.saleProductImage {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+.productName {
+  display: flex;
+  justify-content: space-between;
+}
+.productTitle{
+  white-space: nowrap; 
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* font-weight: 500; */
+}
+.productDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.likeButton:hover{
+    background-color: red;
+    size: 25;
+    cursor: pointer;
+}
+.veiwBtnontainer{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    justify-content: center;
+    align-items: center;
+}
+
+.veiwBtn{
+    width: 250px;
+    height: 45px;
+    background-color: rgb(247, 48, 48);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    
+}
+.line{
+    width: 1380px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    
+}

@@ -1,0 +1,9 @@
+.secondFrameContainer{
+    margin-left: 70px;
+  margin-top: 100px;
+}
+.secondFrameContainerImage{
+    height: 500px;
+    width: 1380px;
+    object-fit:cover;
+}

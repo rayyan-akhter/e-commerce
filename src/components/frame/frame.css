@@ -1,0 +1,23 @@
+.frame{
+    margin-left: 70px ;
+    margin-right: 70px ;
+    display: flex;
+    gap: 40px;
+}
+.frameLeft{
+    width: 300px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-right: solid 1px gray;
+}
+.iphoneImg{
+    width:  1100px;
+    height: 260px;
+    margin-top: 40px;
+    object-fit: cover;
+}
+.frameBtns{
+    cursor: pointer;
+}

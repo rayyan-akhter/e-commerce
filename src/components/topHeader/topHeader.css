@@ -1,0 +1,24 @@
+.topHeader{
+    height: 45px;
+    padding-left: 10px;
+    padding-right: 70px;
+    display: flex;
+    background-color: black;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+}
+.center{
+    color: white;
+    display: flex;
+    padding-left: 30%;
+}
+.topHeaderBtn{
+    background-color: black;
+    border: none;
+    color: white;
+}
+.topHeaderRight{
+    display: flex;
+    gap: 10px;
+}

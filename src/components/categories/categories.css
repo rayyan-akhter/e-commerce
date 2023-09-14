@@ -1,0 +1,60 @@
+.category {
+  margin-left: 70px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.categoryTop {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.categoryBox {
+  width: 20px;
+  height: 40px;
+  background-color: red;
+  border-radius: 5px;
+}
+.categoryBoxTitle {
+  color: red;
+}
+
+.categoryCenter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categoryArrowContainer {
+  padding-right: 70px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.categoryBottom {
+  margin-top: 20px;
+  display: flex;
+  gap: 35px;
+  overflow: scroll;
+}
+.categoryBottom::-webkit-scrollbar {
+  display: none;
+}
+.categories {
+  border: solid 1px black;
+  width: 200px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  cursor: pointer;
+}
+.line2 {
+  width: 1380px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
