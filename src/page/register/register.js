@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "./register.css";
-import image from "./loginImage.png";
-import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import TopHeader from "../../components/topHeader/topHeader";
-import googleIcon from "./google.png";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import googleIcon from "./google.png";
+import image from "./loginImage.png";
+import "./register.css";
 
 const Register = ({ user, setUser }) => {
   const navigation = useNavigate();
@@ -77,7 +75,7 @@ const Register = ({ user, setUser }) => {
           <div className="registerRightBottomConntainer ">
             <button className="signiUpBtn">Create an account</button>
             <div onClick={googleLogin} className="googleBtn">
-              <img src={googleIcon} />
+              <img src={googleIcon} alt="googleIcon" />
               Sign up with google
             </div>
           </div>

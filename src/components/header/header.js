@@ -13,7 +13,6 @@ const Header = ({user,setUser}) => {
   }
   const handleCart =()=>{
   if(!user?.name){
-  alert("login first")
   navigation("/register");}
 else{
   navigation("/cart")  

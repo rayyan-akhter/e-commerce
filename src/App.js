@@ -49,7 +49,7 @@ function App() {
               <>
                 <TopHeader />
                 <Header user={user} setUser={setUser} />
-                <SingleProduct product={product} setProduct={setProduct} />
+                <SingleProduct product={product} setProduct={setProduct} user={user} />
               </>
             }
           />

@@ -7,7 +7,7 @@ import { BiMinus } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 
 
-export const SingleProduct = ({product,setProduct}) => {
+export const SingleProduct = ({product,setProduct,user}) => {
   const params = useParams();
     console.log(params.id);
   const navigation = useNavigate();
@@ -29,21 +29,27 @@ export const SingleProduct = ({product,setProduct}) => {
   }, []);
 
   const AddToCart =()=>{
-    fetch('https://fakestoreapi.com/carts')
-    .then((response) => {
-      console.log(response);
-      if (response) return response.json();
-    })
-    .then((data) => {
-      setProduct(data);
+    // fetch('https://fakestoreapi.com/carts')
+    // .then((response) => {
+    //   console.log(response);
+    //   if (response) return response.json();
+    // })
+    // .then((data) => {
+    //   setProduct(data);
     
-    })
-    .catch((error) => console.log(error));
+    // })
+    // .catch((error) => console.log(error));
     // localStorage.setItem("product",JSON.stringify(product));
     // alert("product Added to Cart")
     navigation("/cart")
   }
-  
+  const handleCart =()=>{
+    if(!user?.name){
+    navigation("/register");}
+  else{
+    navigation("/cart")  
+  }
+    }
 
   console.log(product);
   return (
@@ -66,7 +72,7 @@ export const SingleProduct = ({product,setProduct}) => {
            <BsPlus size={30} className="plus"/>
           </div>
           <button className="buyNow">Buy now</button>
-          <button className="buyNow" onClick={AddToCart}>Add Cart</button>
+          <button className="buyNow" onClick={handleCart}>Add Cart</button>
         </div>
         <div className="productPageRightBottom">
           <div className="delivery"> 
