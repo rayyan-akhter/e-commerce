@@ -41,6 +41,7 @@ export const SingleProduct = ({product,setProduct,user}) => {
     // .catch((error) => console.log(error));
     // localStorage.setItem("product",JSON.stringify(product));
     // alert("product Added to Cart")
+    console.log("new feature")
     navigation("/cart")
   }
   const handleCart =()=>{
