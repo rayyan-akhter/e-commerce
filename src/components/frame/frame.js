@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./frame.css"
 import iphone from "./iPhone.jpg"
 const Frame =()=>{
+
     return(
         <div className='frame'>
             <div className='frameLeft'>

@@ -1,3 +1,9 @@
-button{
-    cursor: pointer;
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Roboto:wght@100;300;400;500;700;900&family=Ubuntu:wght@300;400;500;700&display=swap");
+button {
+  cursor: pointer;
+}
+body {
+  font-family: "Comic Neue", cursive;
+  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu", sans-serif;
 }

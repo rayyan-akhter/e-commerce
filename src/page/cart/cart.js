@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./cart.css";
+import { useNavigate } from "react-router";
 
 export const Cart = () => {
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
   const [shippingCost, setShippingCost] = useState(150);
+  
+  const navigation = useNavigate()
 
+  
   useEffect(() => {
     const cartData = () => {
       fetch("https://fakestoreapi.com/carts/2")
@@ -63,6 +67,7 @@ export const Cart = () => {
     }
   }, [cartTotal]);
 
+
   return (
     <div className="cartPage">
       <div className="cartNavigation">
@@ -95,7 +100,7 @@ export const Cart = () => {
           </div>
         ))}
         <div className="cartUpdateBtnContainer">
-          <p className="updateBtn">Return to Shop</p>
+          <p className="updateBtn" onClick={()=>navigation("/")}>Return to Shop</p>
           <p className="updateBtn">Update Cart</p>
         </div>
       </div>

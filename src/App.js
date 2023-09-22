@@ -13,10 +13,9 @@ function App() {
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-
+   
     if (localStorage.getItem("user"))
       return setUser(JSON.parse(localStorage.getItem("user")));
-
   }, []);
 
   return (
@@ -28,7 +27,7 @@ function App() {
             element={
               <>
                 <TopHeader user={user} />
-                <Register  user={user} setUser={setUser} />
+                <Register user={user} setUser={setUser} />
               </>
             }
           />
@@ -49,7 +48,11 @@ function App() {
               <>
                 <TopHeader />
                 <Header user={user} setUser={setUser} />
-                <SingleProduct product={product} setProduct={setProduct} user={user} />
+                <SingleProduct
+                  product={product}
+                  setProduct={setProduct}
+                  user={user}
+                />
               </>
             }
           />
