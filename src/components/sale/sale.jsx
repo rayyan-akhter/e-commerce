@@ -36,7 +36,7 @@ const Sale = () => {
         </div>
       </div>
       <div className="saleBottom">
-        {products.slice(0, 5).map((product, index) => (
+        {products.slice(0, 4).map((product, index) => (
           <div
             className="saleProduct"
             key={index}
