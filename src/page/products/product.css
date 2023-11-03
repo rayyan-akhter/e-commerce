@@ -1,0 +1,16 @@
+.products{
+    display: grid;
+    padding: 20px 0;
+    grid-template-columns: repeat( auto-fit, minmax(330px, 2fr) );
+    grid-gap: 10px;
+  
+}
+
+.productItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+    cursor: pointer;
+}

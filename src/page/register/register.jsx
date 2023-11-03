@@ -33,8 +33,6 @@ const Register = ({ user, setUser }) => {
     // flow: 'implicit', // implicit is the default
   });
 
-  
-
   useEffect(() => {
     if (!login.name) return;
 
@@ -43,12 +41,12 @@ const Register = ({ user, setUser }) => {
         return response.json();
       })
       .then((data) => {
-        
         const userWithNewProps = { ...data, ...login };
         console.log(userWithNewProps, "this is new props");
         setUser(userWithNewProps);
         localStorage.setItem("user", JSON.stringify(userWithNewProps));
-      });
+      })
+      .catch((error) => console.log(error));
     localStorage.setItem("login", true);
     navigation("/");
     console.log(login);

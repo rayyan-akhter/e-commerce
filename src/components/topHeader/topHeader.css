@@ -1,24 +1,41 @@
-.topHeader{
-    height: 45px;
-    padding-left: 10px;
-    padding-right: 70px;
-    display: flex;
-    background-color: black;
-    position: sticky;
-    justify-content: space-between;
-    align-items: center;
+.topHeader {
+  height: 45px;
+  display: flex;
+  background-color: black;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
 }
-.center{
-    color: white;
-    display: flex;
-    padding-left: 30%;
+.center {
+  color: white;
+  display: flex;
+  text-align: center;
+  width: 100%;
+  justify-content: center;
 }
-.topHeaderBtn{
-    background-color: black;
-    border: none;
-    color: white;
+.topHeaderBtn {
+  background-color: black;
+  border: none;
+  color: white;
 }
-.topHeaderRight{
-    display: flex;
-    gap: 10px;
+.topHeaderRight {
+  display: flex;
+  gap: 10px;
+}
+.drawer {
+  margin-top: 20px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.drawerBtn{
+  cursor: pointer;
+}
+@media (width >= 800px) {
+  .center {
+  }
 }

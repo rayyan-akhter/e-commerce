@@ -8,10 +8,9 @@
     height: 90px;
     display: flex;
     justify-content: space-between;
-    margin-left: 70px ;
-    margin-right: 70px ;
     align-items: center;
     border-bottom: solid 1px gray;
+    padding: 0 20px;
 }
 .middle{
     display:flex;
@@ -22,18 +21,14 @@
     display: flex;
     gap: 40px;
 }
+
 .headerBtn{
     border: none;
     background-color: white;
     font-weight:500;
     cursor: pointer;
 }
-.search{
-    border: none;
-    height: 25px;
-    width: 200px;
-    margin-left: 50px;
-}
+
 .right{
     display: flex;
     align-items: center;

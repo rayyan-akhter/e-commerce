@@ -1,6 +1,4 @@
 .sale {
-  margin-left: 70px;
-  margin-top: 100px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -23,7 +21,7 @@
 }
 .saleCenter {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .saleCenterLeft {
@@ -38,20 +36,20 @@
 }
 .saleBottom {
   margin-top: 20px;
-  display: flex;
+  display: grid;
   gap: 30px;
-  overflow: scroll;
+  grid-template-columns: repeat( auto-fit, minmax(330px, 2fr) );
 }
 .saleBottom::-webkit-scrollbar{
     display: none;
   }
 .saleProduct {
-    width: 300px;
   display: flex;
   flex-direction: column;
   gap: 40px;
   cursor: pointer;
-  
+  justify-content: center;
+  align-items: center;
 }
 .saleProductImage {
   width: 200px;
@@ -67,7 +65,6 @@
   width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* font-weight: 500; */
 }
 .productDescription {
   display: flex;

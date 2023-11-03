@@ -1,0 +1,58 @@
+.filters{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 70px;
+    border-bottom:solid 1px gray;
+    padding: 20px  0;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading{
+  font-size: 28px;
+  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto", sans-serif;
+
+
+}
+
+.select{
+  size: 20px;
+  height: 20px;
+}
+.middleRight{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.search{
+  border: 1px solid hsl(0, 0%, 80%);
+  ;
+  border-radius: 4px;
+  height: 40px;
+  width: 200px;
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+.search:focus{
+  border-color: #2684ff;
+}
+.containers{
+  display: flex;
+  gap: 10px;
+}
+
+
+@media (width <= 700px) {
+  .filters{
+    padding: 20px;
+  }
+  .containers{
+    gap: 10px;
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+  }
+}

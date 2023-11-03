@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./sale.css";
-import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router";
+import "./sale.css";
 const Sale = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  // const productData = Array.from({ length: 10 });
 
   useEffect(() => {
     const productsData = () => {
@@ -16,10 +14,14 @@ const Sale = () => {
         })
         .then((data) => {
           setProducts(data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     };
     productsData();
   }, []);
+  console.log(products, "products");
 
   return (
     <div className="sale">
@@ -32,13 +34,9 @@ const Sale = () => {
           <h2>Flash Sales</h2>
           <h2>04:45:55</h2>
         </div>
-        <div className="saleCenterRight">
-          <BsArrowLeftCircle size={20} />
-          <BsArrowRightCircle size={20} />
-        </div>
       </div>
       <div className="saleBottom">
-        {products.map((product, index) => (
+        {products.slice(0, 5).map((product, index) => (
           <div
             className="saleProduct"
             key={index}
@@ -62,7 +60,9 @@ const Sale = () => {
         ))}
       </div>
       <div className="veiwBtnontainer">
-        <button className="veiwBtn">View all product</button>
+        <button className="veiwBtn" onClick={() => navigate("/products")}>
+          View all product
+        </button>
       </div>
       <hr className="line"></hr>
     </div>

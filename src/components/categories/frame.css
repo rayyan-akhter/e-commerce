@@ -1,0 +1,51 @@
+.frame {
+  margin-left: 70px;
+  margin-right: 70px;
+  display: flex;
+  gap: 40px;
+}
+.frameLeft {
+  width: 300px;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-right: solid 1px gray;
+}
+.iphoneImg {
+  width: 1100px;
+  height: 260px;
+  margin-top: 40px;
+  object-fit: cover;
+}
+.frameBtns {
+  cursor: pointer;
+  font-style: italic;
+  font-size: 20px;
+}
+.categories {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+@media (width <= 950px) {
+  .iphoneImg{
+    width: 100%;
+  }
+}
+@media (width <= 700px) {
+  .frame {
+    justify-content: center;
+  }
+  .frameLeft {
+    border: 0;
+  }
+  .categories {
+    text-align: center;
+  }
+  .iphoneImg{
+    width: unset;
+  }
+}

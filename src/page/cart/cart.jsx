@@ -34,6 +34,9 @@ export const Cart = () => {
         })
         .then((data) => {
           setProducts(data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     };
     productsData();
@@ -46,7 +49,7 @@ export const Cart = () => {
     let filteredProducts = [];
     products.forEach((product) => {
       const cartProduct = cart.products.find(
-        (cartItem) => cartItem.productId === product.id
+        (cartItem) => cartItem.productId === product.id 
       );
       if (cartProduct) {
         filteredProducts.push({ ...product, quantity: cartProduct.quantity });
