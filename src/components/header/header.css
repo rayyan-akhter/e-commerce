@@ -15,7 +15,6 @@
 .middle{
     display:flex;
     gap: 80px;
-    /* align-items: center; */
 }
 .middleLeft{
     display: flex;

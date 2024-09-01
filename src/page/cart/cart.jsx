@@ -1,82 +1,77 @@
 import React, { useEffect, useState } from "react";
-import "./cart.css";
 import { useNavigate } from "react-router";
+import "./cart.css";
+import { ClipLoader } from "react-spinners";
 
 export const Cart = () => {
-  const [cart, setCart] = useState({});
-  const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [shippingCost, setShippingCost] = useState(150);
-  
-  const navigation = useNavigate()
+  const [loading, setLoading] = useState(true);
 
-  
+  const navigation = useNavigate();
+
   useEffect(() => {
-    const cartData = () => {
-      fetch("https://fakestoreapi.com/carts/2")
-        .then((response) => {
-          console.log(response);
-          if (response) return response.json();
-        })
-        .then((data) => {
-          setCart(data);
-        })
-        .catch((error) => console.log(error));
-    };
-    cartData();
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartProducts(cartData);
   }, []);
 
   useEffect(() => {
-    const productsData = () => {
-      fetch("https://fakestoreapi.com/products")
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setProducts(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    productsData();
-  }, []);
-  console.log(cart.products, "this is cart products");
-  console.log(products, "this is products");
-
-  useEffect(() => {
-    if (!cart.products) return;
-    let filteredProducts = [];
-    products.forEach((product) => {
-      const cartProduct = cart.products.find(
-        (cartItem) => cartItem.productId === product.id 
-      );
-      if (cartProduct) {
-        filteredProducts.push({ ...product, quantity: cartProduct.quantity });
+    const fetchProductsData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
       }
-    });
-    setCartProducts(filteredProducts);
-  }, [cart, products]);
-  const cartTotal = cartProducts.reduce(
+      finally {
+        setLoading(false); 
+      }
+    };
+    fetchProductsData();
+  }, []);
+
+  const cartDetails = cartProducts.map((cartProduct) => {
+    const product = products.find((p) => p.id === cartProduct.productId);
+    return product ? { ...product, quantity: cartProduct.quantity } : null;
+  }).filter(Boolean);
+
+  const cartTotal = cartDetails.reduce(
     (total, product) => total + product.price * product.quantity,
     0
   );
 
   useEffect(() => {
-    if (cartTotal < 1000) {
-      setShippingCost(150);
-    } else {
-      setShippingCost(0);
-    }
+    setShippingCost(cartTotal < 1000 ? 150 : 0);
   }, [cartTotal]);
 
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <ClipLoader  size={200} />;
+      </div>
+    );
+  }
+  if (!cartDetails?.length) {
+    return (
+      <div className="cartPage">
+        <h2>Your Cart is Empty</h2>
+        <button className="updateBtn" onClick={() => navigation("/")}>
+          Return to Shop
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="cartPage">
       <div className="cartNavigation">
-        <p>home </p>
+        <p>Home </p>
         <p>/</p>
-        <p> cart</p>
+        <p> Cart</p>
       </div>
       <div className="cartPagetop">
         <div className="cartProductTitle">
@@ -86,24 +81,23 @@ export const Cart = () => {
           <p>Subtotal</p>
         </div>
 
-        {cartProducts.map((product) => (
-          <div className="cartProductDetails">
+        {cartDetails.map((product) => (
+          <div className="cartProductDetails" key={product.id}>
             <div className="cartProductInfo">
-              <img
-                className="CartProductImage"
-                key={product.id}
-                src={product.image}
-                alt=""
-              />
+              <img className="CartProductImage" src={product.image} alt="" />
               <p>{product.title}</p>
             </div>
             <p className="cartProductPrice">${product.price}</p>
-            <p className="cartProductQuanitity">{product.quantity}</p>
-            <p className="cartProductSubTotal"> ${product.price * product.quantity}</p>
+            <p className="cartProductQuantity">{product.quantity}</p>
+            <p className="cartProductSubTotal">
+              ${product.price * product.quantity}
+            </p>
           </div>
         ))}
         <div className="cartUpdateBtnContainer">
-          <p className="updateBtn" onClick={()=>navigation("/")}>Return to Shop</p>
+          <p className="updateBtn" onClick={() => navigation("/")}>
+            Return to Shop
+          </p>
           <p className="updateBtn">Update Cart</p>
         </div>
       </div>
@@ -116,29 +110,24 @@ export const Cart = () => {
           <h3>Cart total</h3>
           <div className="cartSubTotal">
             <p>Subtotal:</p>
-            <p>
-              ${cartTotal}
-            </p>
+            <p>${cartTotal}</p>
           </div>
-          <hr></hr>
+          <hr />
           <div className="cartSubTotal">
-            <p>shipping:</p>
+            <p>Shipping:</p>
             <p>${shippingCost}</p>
           </div>
-          <hr></hr>
+          <hr />
           <div className="cartSubTotal">
             <p>Total:</p>
-            <p>
-            ${cartTotal + shippingCost}
-            </p>
+            <p>${cartTotal + shippingCost}</p>
           </div>
           <div className="CartProcessToCheckOutContainer">
-            <button className="CartProcessToCheckOut">
-              Procees to Checkout
-            </button>
+            <button className="CartProcessToCheckOut">Proceed to Checkout</button>
           </div>
         </div>
       </div>
     </div>
   );
 };
+

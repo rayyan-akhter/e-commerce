@@ -17,20 +17,17 @@ const Register = ({ user, setUser }) => {
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse);
-      // fetching userinfo can be done on the client or the server
       const userInfo = await axios
         .get("https://www.googleapis.com/oauth2/v3/userinfo", {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         })
         .then((res) => res.data);
 
-      // console.log(userInfo);
       setLogin({
         name: userInfo.name,
         email: userInfo.email,
       });
     },
-    // flow: 'implicit', // implicit is the default
   });
 
   useEffect(() => {
@@ -66,9 +63,10 @@ const Register = ({ user, setUser }) => {
             <p>Enter your detail below</p>
           </div>
           <div className="registerRightCenterConntainer ">
-            <input placeholder="name" className="input" />
-            <input placeholder="email or phone number" className="input" />
-            <input placeholder="password" className="input" />
+            <input placeholder="Name" className="input" />
+            <input placeholder="Email or phone number" className="input" />
+            <input placeholder="Password" className="input" type="password"/>
+            <input placeholder="Re-enter your password" className="input" type="password"/>
           </div>
           <div className="registerRightBottomConntainer ">
             <button className="signiUpBtn">Create an account</button>

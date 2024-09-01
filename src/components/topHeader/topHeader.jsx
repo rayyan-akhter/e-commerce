@@ -33,7 +33,7 @@ const TopHeader = ({isMobile}) =>{
                {isMobile && (
           <RxHamburgerMenu onClick={toggleDrawer} size={20} className="drawerLogo" color='white'cursor="pointer" />
         )}
-        <Drawer
+        {/* <Drawer
           elevation={1}
           anchor="right"
           open={isOpen}
@@ -45,7 +45,7 @@ const TopHeader = ({isMobile}) =>{
             <p className='drawerBtn' onClick={alertmsg}>about</p>
             <p className='drawerBtn' onClick={() => logOut()}>Logout</p>
           </div>
-        </Drawer>
+        </Drawer> */}
             </div>
         </div>
     )

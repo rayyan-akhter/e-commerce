@@ -1,12 +1,28 @@
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./frame.css";
+import "./category.css";
 import iphone from "./iPhone.jpg";
 const Category = ({isMobile}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState([]);
 
+  useGSAP(() => {
+    gsap.from("#iphoneImg", {
+      scrollTrigger: {
+        trigger: "#chip",
+        start: "20% bottom",
+      },
+      opacity: 0,
+      scale: 1,
+      duration: 2,
+      ease: "power2.inOut",
+    });
+
+    
+  }, []);
 
   const apiUrl = `https://fakestoreapi.com/products/categories`;
 
@@ -42,7 +58,7 @@ const Category = ({isMobile}) => {
           ))}
       </div>
           </div>
-     {!isMobile&& <div className="frameRight">
+     {!isMobile && <div className="frameRight" id="iphoneImg">
           <img className="iphoneImg" src={iphone} alt="iphoneImage"/>
         </div>}
     </div>

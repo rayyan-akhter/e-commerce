@@ -1,63 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, json, useNavigate, useParams } from "react-router";
-import "./singleProduct.css"
-import image from "./deliveryIcon.png"
-import returnImage  from "./returnIcon.png"
+import { useNavigate, useParams } from "react-router";
+import "./singleProduct.css";
+import image from "./deliveryIcon.png";
+import returnImage from "./returnIcon.png";
 import { BiMinus } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 
-
-export const SingleProduct = ({product,setProduct,user}) => {
+export const SingleProduct = ({ user }) => {
   const params = useParams();
-    console.log(params.id);
   const navigation = useNavigate();
+  
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    const productData = () => {
-      fetch(`https://fakestoreapi.com/products/${params.id}`)
-        .then((response) => {
-          console.log(response);
-          if (response) return response.json();
-        })
-        .then((data) => {
-          setProduct(data);
-        
-        })
-        .catch((error) => console.log(error));
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    productData();
-  }, []);
+    fetchProduct();
+  }, [params.id]);
 
-  const AddToCart =()=>{
-    // fetch('https://fakestoreapi.com/carts')
-    // .then((response) => {
-    //   console.log(response);
-    //   if (response) return response.json();
-    // })
-    // .then((data) => {
-    //   setProduct(data);
-    
-    // })
-    // .catch((error) => console.log(error));
-    // localStorage.setItem("product",JSON.stringify(product));
-    // alert("product Added to Cart")
-    console.log("new feature")
-    navigation("/cart")
-  }
-  const handleCart =()=>{
-    if(!user?.name){
-    navigation("/register");}
-  else{
-    navigation("/cart")  
-  }
+  const handleQuantityChange = (amount) => {
+    setQuantity(prevQuantity => Math.max(prevQuantity + amount, 1));
+  };
+
+  const handleAddToCart = () => {
+    if (!user?.name) {
+      navigation("/register");
+      return;
     }
 
-  console.log(product);
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingProductIndex = storedCart.findIndex(item => item.productId === product.id);
+
+    if (existingProductIndex > -1) {
+      storedCart[existingProductIndex].quantity += quantity;
+    } else {
+      storedCart.push({ productId: product.id, quantity });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(storedCart));
+    alert("Product added to cart!");
+    navigation("/cart");
+  };
+
   return (
     <div className="productPage">
-     
       <div className="productPageCenter">
-        <img className="productPageImage" src={product.image} alt="" />
+        <img className="productPageImage" src={product.image} alt={product.title} />
       </div>
       <div className="productPageRight">
         <div className="productPageRightTop">
@@ -65,32 +61,32 @@ export const SingleProduct = ({product,setProduct,user}) => {
           <h4>${product.price}</h4>
           <p>{product.description}</p>
         </div>
-        <hr></hr>
+        <hr />
         <div className="productPageRightCenter">
           <div className="addProduct">
-           <BiMinus size={30} className="minus"/>
-           <h3 className="number" >1</h3>
-           <BsPlus size={30} className="plus"/>
+            <BiMinus size={30} className="minus" onClick={() => handleQuantityChange(-1)} />
+            <h3 className="number">{quantity}</h3>
+            <BsPlus size={30} className="plus" onClick={() => handleQuantityChange(1)} />
           </div>
-          <button className="buyNow">Buy now</button>
-          <button className="buyNow" onClick={handleCart}>Add Cart</button>
+          <button className="buyNow" >Buy Now</button>
+          <button className="buyNow" onClick={handleAddToCart}>Add to Cart</button>
         </div>
         <div className="productPageRightBottom">
-          <div className="delivery"> 
-          <img src={image} alt=""/>
-          <div>
-            <p> Free delivery</p>
-            <p> Enter your postal code for Delivery Availability</p>
-          </div>
-          </div>
-          <hr></hr>
           <div className="delivery">
-          <img src={returnImage} alt=""/>
-          <div>
-            <p> Return delivery</p>
-            <p> Free 30 Days Delivery Returns. Details</p>
+            <img src={image} alt="" />
+            <div>
+              <p>Free delivery</p>
+              <p>Enter your postal code for Delivery Availability</p>
+            </div>
           </div>
-             </div>
+          <hr />
+          <div className="delivery">
+            <img src={returnImage} alt="" />
+            <div>
+              <p>Return delivery</p>
+              <p>Free 30 Days Delivery Returns. Details</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

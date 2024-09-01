@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import "./sale.css";
 const Sale = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,3 +71,4 @@ const Sale = () => {
 };
 
 export default Sale;
+

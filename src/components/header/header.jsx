@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
@@ -6,9 +6,7 @@ import { useNavigate } from "react-router";
 
 import "./header.css";
 const Header = ({ user, setUser,isMobile }) => {
-
-
- 
+  const[isLoggedIn, setIsLoggedIn] = useState(false)
   const navigation = useNavigate();
   const logOut = () => {
     localStorage.removeItem("user");
@@ -23,10 +21,21 @@ const Header = ({ user, setUser,isMobile }) => {
       navigation("/cart");
     }
   };
+  const navigateToSignup = () =>{
+    navigation("/register");
+  }
 
   const alertmsg =()=>{
     alert("this functionality coming soon")
   }
+
+  useEffect(()=>{
+    const loginStatus = localStorage.getItem("login")
+
+    if (loginStatus === 'true') {
+      setIsLoggedIn(true);
+    }
+  },[])
   return (
     <>
       {!isMobile && (
@@ -41,7 +50,7 @@ const Header = ({ user, setUser,isMobile }) => {
               </button>
               <button className="headerBtn" onClick={alertmsg}>Contact</button>
               <button className="headerBtn"  onClick={alertmsg}>About</button>
-              <button className="headerBtn" onClick={alertmsg}>Sign Up</button>
+              {!isLoggedIn && <button className="headerBtn" onClick={navigateToSignup}>Sign Up</button>}
             </div>
           </div>
           <div className="right">

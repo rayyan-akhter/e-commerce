@@ -1,13 +1,13 @@
-import { Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header/header";
 import TopHeader from "./components/topHeader/topHeader";
-import { Home } from "./page/home/home";
-import { SingleProduct } from "./page/singleProduct/singleProduct";
-import Register from "./page/register/register";
-import { useEffect, useState } from "react";
 import { Cart } from "./page/cart/cart";
+import { Home } from "./page/home/home";
 import { Product } from "./page/products/product";
+import Register from "./page/register/register";
+import { SingleProduct } from "./page/singleProduct/singleProduct";
 
 function App() {
   const [user, setUser] = useState({});
@@ -19,11 +19,11 @@ function App() {
 
     window.addEventListener("resize",(e)=>{
 
-      if (window.innerWidth < 700) setIsMobile(true);
+      if (window.innerWidth < 912) setIsMobile(true);
       else setIsMobile(false);
       console.log(e);
     })
-    if (window.innerWidth < 700) setIsMobile(true);
+    if (window.outerWidth < 912) setIsMobile(true);
       else setIsMobile(false);
     
   }, []);
@@ -41,10 +41,10 @@ function App() {
           <Route
             path="/register"
             element={
-              <>
+              <div >
                 <TopHeader user={user} isMobile={isMobile} />
                 <Register user={user} setUser={setUser} />
-              </>
+              </div>
             }
           />
           <Route
