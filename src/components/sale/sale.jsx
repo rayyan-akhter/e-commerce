@@ -2,27 +2,40 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import "./sale.css";
+import { ClipLoader } from "react-spinners";
 const Sale = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const productsData = () => {
-      fetch("https://fakestoreapi.com/products")
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setProducts(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    const productsData = async() => {
+      setLoading(true)
+      try{ 
+     
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data  = await response.json();
+        setProducts(data)
+      } catch(error){
+        console.error();
+        
+      }finally{
+        setLoading(false);;
+      }
+       
     };
     productsData();
   }, []);
   console.log(products, "products");
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <ClipLoader size={200} />
+      </div>
+    );
+  }
+
 
   return (
     <div className="sale">

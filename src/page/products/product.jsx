@@ -4,12 +4,14 @@ import { ProductList } from "../../components/ProductList";
 import "./product.css";
 import Filter, { sortOptions } from "../../components/filters";
 import { useDebounce } from "use-debounce";
+import { ClipLoader } from "react-spinners";
 
 const apiEndpoint = `https://fakestoreapi.com/products`;
 const categoryEndpoint = "https://fakestoreapi.com/products/categories";
 
 export const Product = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
     sort: null,
@@ -22,12 +24,15 @@ export const Product = () => {
 
   useEffect(() => {
     const productsData = async () => {
+      setLoading(true)
       try {
         const response = await fetch(apiEndpoint);
         const data = await response.json();
         setProducts(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false); 
       }
     };
     const fetchCategories = async () => {
@@ -81,6 +86,14 @@ export const Product = () => {
       product.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
   }, [debouncedSearch, filteredByCategory]);
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <ClipLoader size={200} />
+      </div>
+    );
+  }
 
   return (
     <>

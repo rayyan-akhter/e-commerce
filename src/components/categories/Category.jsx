@@ -4,10 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./category.css";
 import iphone from "./iPhone.jpg";
+import { ClipLoader } from "react-spinners";
 const Category = ({isMobile}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useGSAP(() => {
     gsap.from("#iphoneImg", {
@@ -26,21 +28,33 @@ const Category = ({isMobile}) => {
 
   const apiUrl = `https://fakestoreapi.com/products/categories`;
 
-  useEffect(()=>{
-
+  useEffect(() => {
     const fetchCategories = async () => {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      setSelectedCategory(data);
+      setLoading(true); // Set loading to true before fetching
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        setSelectedCategory(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
     };
     fetchCategories();
-  },[])
-  
+  }, []);
 
   const handleCategory = (category) => {
     navigate(`/products?category=${category}`);
   };
   
+  if (loading) {
+    return (
+      <div className="loader">
+        <ClipLoader size={200} />
+      </div>
+    );
+  }
 
   return (
     <div className="frame">
