@@ -42,7 +42,7 @@ function App() {
             path="/register"
             element={
               <div >
-                <TopHeader user={user} isMobile={isMobile} />
+                {/* <TopHeader user={user} isMobile={isMobile} /> */}
                 <Register user={user} setUser={setUser} />
               </div>
             }
@@ -52,7 +52,7 @@ function App() {
             path="/"
             element={
               <>
-                <TopHeader isMobile={isMobile}/>
+                {/* <TopHeader isMobile={isMobile}/> */}
                 <Header user={user} product={product} setUser={setUser} isMobile={isMobile} />
                 <Home user={user} setUser={setUser} />
               </>
@@ -62,7 +62,7 @@ function App() {
             path="/product/:id"
             element={
               <>
-                <TopHeader isMobile={isMobile}/>
+                {/* <TopHeader isMobile={isMobile}/> */}
                 <Header user={user} setUser={setUser} isMobile={isMobile} />
                 <SingleProduct
                   product={product}
@@ -76,7 +76,7 @@ function App() {
             path="/cart"
             element={
               <>
-                <TopHeader isMobile={isMobile} />
+                {/* <TopHeader isMobile={isMobile} /> */}
                 <Header user={user} setUser={setUser} isMobile={isMobile}/>
                 <Cart product={product} />
               </>
@@ -86,7 +86,7 @@ function App() {
             path="/products"
             element={
               <>
-                <TopHeader isMobile={isMobile} />
+                {/* <TopHeader isMobile={isMobile} /> */}
                 <Header user={user} setUser={setUser} isMobile={isMobile} />
                <Product/>
               </>

@@ -23,6 +23,10 @@
   font-style: italic;
   font-size: 20px;
 }
+.frameBtns:hover{
+  scale:1.2;
+  transition: 0.5s;
+}
 .categories {
   display: flex;
   flex-direction: column;

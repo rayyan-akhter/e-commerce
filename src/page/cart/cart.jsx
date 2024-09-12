@@ -65,6 +65,7 @@ export const Cart = () => {
       </div>
     );
   }
+  
 
   return (
     <div className="cartPage">

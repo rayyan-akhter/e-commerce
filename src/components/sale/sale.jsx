@@ -28,13 +28,13 @@ const Sale = () => {
   }, []);
   console.log(products, "products");
 
-  if (loading) {
-    return (
-      <div className="loader">
-        <ClipLoader size={200} />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="loader">
+  //       <ClipLoader size={200} />
+  //     </div>
+  //   );
+  // }
 
 
   return (

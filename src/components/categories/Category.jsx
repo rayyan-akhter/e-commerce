@@ -14,12 +14,12 @@ const Category = ({isMobile}) => {
   useGSAP(() => {
     gsap.from("#iphoneImg", {
       scrollTrigger: {
-        trigger: "#chip",
+        trigger: "#iphoneImg",
         start: "20% bottom",
       },
       opacity: 0,
       scale: 1,
-      duration: 2,
+      duration: 10,
       ease: "power2.inOut",
     });
 
@@ -30,7 +30,7 @@ const Category = ({isMobile}) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      setLoading(true); // Set loading to true before fetching
+      setLoading(true); 
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -38,7 +38,7 @@ const Category = ({isMobile}) => {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false); 
       }
     };
     fetchCategories();

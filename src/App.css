@@ -13,6 +13,7 @@ body {
   font-family: "Comic Neue", cursive;
   font-family: "Roboto", sans-serif;
   font-family: "Ubuntu", sans-serif;
+  overflow-x: hidden;
 }
 
 .pagination {

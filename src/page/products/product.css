@@ -2,7 +2,7 @@
     display: grid;
     padding: 20px 0;
     grid-template-columns: repeat( auto-fit, minmax(330px, 2fr) );
-    grid-gap: 10px;
+    grid-gap: 30px;
   
 }
 
@@ -14,3 +14,8 @@
     gap: 40px;
     cursor: pointer;
 }
+.productItem:hover{
+    padding: 2px 0px;
+  scale: 1.1;transition: 0.4s;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}  
