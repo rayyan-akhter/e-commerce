@@ -56,7 +56,7 @@ const Header = ({ user, setUser,isMobile }) => {
             </div> */}
             <div className="middle-container">
 
-            <input type="text" placeholder="serch" />
+            <input type="text" placeholder="Not working yet" />
             <div className="header-search-icon-container">
             <IoSearchOutline size={30}  className="header-search-icon"/>
             </div>
