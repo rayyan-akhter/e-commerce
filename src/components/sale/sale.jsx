@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import "./sale.css";
-import { ClipLoader } from "react-spinners";
 const Sale = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,13 +27,7 @@ const Sale = () => {
   }, []);
   console.log(products, "products");
 
-  // if (loading) {
-  //   return (
-  //     <div className="loader">
-  //       <ClipLoader size={200} />
-  //     </div>
-  //   );
-  // }
+
 
 
   return (
@@ -50,7 +43,7 @@ const Sale = () => {
         </div>
       </div>
       <div className="saleBottom">
-        {products.slice(0, 4).map((product, index) => (
+        {products.slice(0, 5).map((product, index) => (
           <div
             className="saleProduct"
             key={index}
@@ -68,7 +61,12 @@ const Sale = () => {
                 <h4 className="productTitle">{product.title}</h4>
                 <AiOutlineHeart size={20} />
               </div>
-              <div className="productPrice">${product.price}</div>
+              <div className="productPrice">
+                <p>
+                ${product.price}
+                </p>
+                <button>Add to cart</button>
+                </div>
             </div>
           </div>
         ))}

@@ -14,8 +14,9 @@
     gap: 40px;
     cursor: pointer;
 }
-.productItem:hover{
+.saleProductImage:hover{
     padding: 2px 0px;
-  scale: 1.1;transition: 0.4s;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  scale: 1.1;
+  transition: 0.2s;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }  
