@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineHeart,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
 
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
 
-
 import "./header.css";
-const Header = ({ user, setUser,isMobile }) => {
-  const[isLoggedIn, setIsLoggedIn] = useState(false)
+import { IconButton, Snackbar } from "@mui/material";
+const Header = ({ user, setUser, isMobile }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigate();
   const logOut = () => {
     localStorage.removeItem("user");
@@ -23,21 +27,47 @@ const Header = ({ user, setUser,isMobile }) => {
       navigation("/cart");
     }
   };
-  const navigateToSignup = () =>{
+  const navigateToSignup = () => {
     navigation("/register");
-  }
+  };
 
-  const alertmsg =()=>{
-    alert("this functionality coming soon")
-  }
+  const alertmsg = () => {
+    alert("this functionality coming soon");
+  };
 
-  useEffect(()=>{
-    const loginStatus = localStorage.getItem("login")
+  useEffect(() => {
+    const loginStatus = localStorage.getItem("login");
 
-    if (loginStatus === 'true') {
+    if (loginStatus === "true") {
       setIsLoggedIn(true);
     }
-  },[])
+  }, []);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        sx={{ color: "white" }}
+        aria-label="close"
+        onClick={handleClose}
+      >
+        <AiOutlineClose size={15} />
+      </IconButton>
+    </React.Fragment>
+  );
   return (
     <>
       {!isMobile && (
@@ -55,44 +85,54 @@ const Header = ({ user, setUser,isMobile }) => {
             
             </div> */}
             <div className="middle-container">
-
-            <input type="text" placeholder="Not working yet" />
-            <div className="header-search-icon-container">
-            <IoSearchOutline size={30}  className="header-search-icon"/>
-            </div>
+              <input type="text" placeholder="Not working yet" />
+              <div className="header-search-icon-container">
+                <IoSearchOutline size={30} className="header-search-icon" />
+              </div>
             </div>
           </div>
           <div className="right">
             <div>
-
-          {!isLoggedIn ? (
-            <button className="headerBtn" onClick={navigateToSignup}>
+              {!isLoggedIn ? (
+                <button className="headerBtn" onClick={navigateToSignup}>
                   Sign Up
                 </button>
               ) : (
                 <span className="headerUserName">{user?.name}</span>
               )}
-              </div>
-              <div className="icon-container">
-            <AiOutlineHeart  className="header-icon" size={30} />
-              </div>
-              <div className="icon-container">
-
-            <AiOutlineShoppingCart
-              size={30}
-              onClick={handleCart}
-              className="header-icon"
+            </div>
+            <div className="icon-container">
+              <AiOutlineHeart
+                className="header-icon"
+                size={30}
+                onClick={handleClick}
               />
-              </div>
-              <div className="icon-container">
+            </div>
+            <div className="icon-container">
+              <AiOutlineShoppingCart
+                size={30}
+                onClick={handleCart}
+                className="header-icon"
+              />
+            </div>
+            <div className="icon-container">
+              <MdLogout
+                size={30}
+                onClick={() => logOut()}
+                className="header-icon"
+              />
 
-            <MdLogout size={30} onClick={() => logOut()} className="header-icon" />
-              </div>
+              <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                message="This feature ain't available right now"
+                action={action}
+              />
+            </div>
           </div>
         </div>
-      ) 
-      }
-      
+      )}
     </>
   );
 };

@@ -9,14 +9,16 @@ import { BsPlus } from "react-icons/bs";
 export const SingleProduct = ({ user }) => {
   const params = useParams();
   const navigation = useNavigate();
-  
+
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+        const response = await fetch(
+          `https://fakestoreapi.com/products/${params.id}`
+        );
         const data = await response.json();
         setProduct(data);
       } catch (error) {
@@ -27,7 +29,7 @@ export const SingleProduct = ({ user }) => {
   }, [params.id]);
 
   const handleQuantityChange = (amount) => {
-    setQuantity(prevQuantity => Math.max(prevQuantity + amount, 1));
+    setQuantity((prevQuantity) => Math.max(prevQuantity + amount, 1));
   };
 
   const handleAddToCart = () => {
@@ -37,7 +39,9 @@ export const SingleProduct = ({ user }) => {
     }
 
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingProductIndex = storedCart.findIndex(item => item.productId === product.id);
+    const existingProductIndex = storedCart.findIndex(
+      (item) => item.productId === product.id
+    );
 
     if (existingProductIndex > -1) {
       storedCart[existingProductIndex].quantity += quantity;
@@ -53,7 +57,11 @@ export const SingleProduct = ({ user }) => {
   return (
     <div className="productPage">
       <div className="productPageCenter">
-        <img className="productPageImage" src={product.image} alt={product.title} />
+        <img
+          className="productPageImage"
+          src={product.image}
+          alt={product.title}
+        />
       </div>
       <div className="productPageRight">
         <div className="productPageRightTop">
@@ -64,12 +72,22 @@ export const SingleProduct = ({ user }) => {
         <hr />
         <div className="productPageRightCenter">
           <div className="addProduct">
-            <BiMinus size={30} className="minus" onClick={() => handleQuantityChange(-1)} />
+            <BiMinus
+              size={30}
+              className="minus"
+              onClick={() => handleQuantityChange(-1)}
+            />
             <h3 className="number">{quantity}</h3>
-            <BsPlus size={30} className="plus" onClick={() => handleQuantityChange(1)} />
+            <BsPlus
+              size={30}
+              className="plus"
+              onClick={() => handleQuantityChange(1)}
+            />
           </div>
-          <button className="buyNow" >Buy Now</button>
-          <button className="buyNow" onClick={handleAddToCart}>Add to Cart</button>
+          <button className="buyNow">Buy Now</button>
+          <button className="buyNow" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
         <div className="productPageRightBottom">
           <div className="delivery">

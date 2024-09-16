@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./cart.css";
 import { ClipLoader } from "react-spinners";
+import { BiMinus } from "react-icons/bi";
+import { BsPlus } from "react-icons/bs";
+import { IconButton, Snackbar } from "@mui/material";
+import { AiOutlineClose } from "react-icons/ai";
 
 export const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [shippingCost, setShippingCost] = useState(150);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  const [quantity, setQuantity] = useState(1);
+
 
   const navigation = useNavigate();
 
@@ -66,11 +74,40 @@ export const Cart = () => {
     );
   }
   
+  const handleQuantityChange = (amount) => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity + amount, 1));
+  };
 
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      
+      <IconButton
+      sx={{color:"white"}}
+        aria-label="close"
+        
+        onClick={handleClose}
+      >
+        <AiOutlineClose size={15} />
+      </IconButton>
+    </React.Fragment>
+  );
   return (
     <div className="cartPage">
       <div className="cartNavigation">
-        <p>Home </p>
+        <p onClick={() => navigation("/")}>Home </p>
         <p>/</p>
         <p> Cart</p>
       </div>
@@ -89,7 +126,16 @@ export const Cart = () => {
               <p>{product.title}</p>
             </div>
             <p className="cartProductPrice">${product.price}</p>
+            <div className="cart-quantity-manage-container">
+            <BiMinus size={28} className="minus" onClick={() => handleQuantityChange(-1)} />
+              
             <p className="cartProductQuantity">{product.quantity}</p>
+            <BsPlus
+              size={28}
+              className="plus"
+              onClick={() => handleQuantityChange(1)}
+            />
+            </div>
             <p className="cartProductSubTotal">
               ${product.price * product.quantity}
             </p>
@@ -99,13 +145,13 @@ export const Cart = () => {
           <p className="updateBtn" onClick={() => navigation("/")}>
             Return to Shop
           </p>
-          <p className="updateBtn">Update Cart</p>
+          <p className="updateBtn" onClick={handleClick}>Update Cart</p>
         </div>
       </div>
       <div className="cartPageBottom">
         <div className="cartPageBottomLeft">
           <input type="text" className="cartCoupon" />
-          <button className="couponBtn">Apply Coupon</button>
+          <button className="couponBtn" onClick={handleClick}>Apply Coupon</button>
         </div>
         <div className="cartPageBottomRight">
           <h3>Cart total</h3>
@@ -124,8 +170,15 @@ export const Cart = () => {
             <p>${cartTotal + shippingCost}</p>
           </div>
           <div className="CartProcessToCheckOutContainer">
-            <button className="CartProcessToCheckOut">Proceed to Checkout</button>
+            <button className="CartProcessToCheckOut" onClick={handleClick}>Proceed to Checkout</button>
           </div>
+          <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                message="This feature ain't available right now"
+                action={action}
+              />
         </div>
       </div>
     </div>

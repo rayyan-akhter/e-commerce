@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@gsap/react": "^2.1.1",
-    "@mui/material": "^5.14.16",
+    "@mui/material": "^6.1.0",
     "@mui/styled-engine-sc": "^6.0.0-alpha.4",
     "@react-icons/all-files": "^4.1.0",
     "@react-navigation/native": "^6.1.7",

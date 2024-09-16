@@ -4,6 +4,8 @@
   gap: 20px;
   /* justify-content: center; */
   /* align-items: center; */
+  font-family: "Domine", serif;
+
 }
 .saleTop {
   display: flex;
@@ -78,6 +80,8 @@
   border: none;
   border-radius: 5px;
   padding: 5px;
+  font-family: "Domine", serif;
+
 }
 .productTitle{
   white-space: nowrap; 
@@ -112,6 +116,9 @@
     color: white;
     border: none;
     border-radius: 5px;
+    font-size: large;
+    font-family: "Domine", serif;
+
     
 }
 .line{
