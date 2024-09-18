@@ -74,11 +74,21 @@ export const Cart = () => {
     );
   }
   
-  const handleQuantityChange = (amount) => {
-    setQuantity((prevQuantity) => Math.max(prevQuantity + amount, 1));
+  const handleQuantityChange = (productId, amount) => {
+    setCartProducts((prevCartProducts) => {
+      let updatedCart = prevCartProducts.map((item) =>
+        item.productId === productId
+          ? { ...item, quantity: item.quantity + amount }
+          : item
+      );
+
+      updatedCart = updatedCart.filter((item) => item.quantity > 0);
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+      return updatedCart;
+    });
   };
-
-
   const handleClick = () => {
     setOpen(true);
   };
@@ -127,13 +137,13 @@ export const Cart = () => {
             </div>
             <p className="cartProductPrice">${product.price}</p>
             <div className="cart-quantity-manage-container">
-            <BiMinus size={28} className="minus" onClick={() => handleQuantityChange(-1)} />
+            <BiMinus size={28} className="minus" onClick={() => handleQuantityChange(product.id,-1)} />
               
             <p className="cartProductQuantity">{product.quantity}</p>
             <BsPlus
               size={28}
               className="plus"
-              onClick={() => handleQuantityChange(1)}
+              onClick={() => handleQuantityChange(product.id,1)}
             />
             </div>
             <p className="cartProductSubTotal">
@@ -145,7 +155,6 @@ export const Cart = () => {
           <p className="updateBtn" onClick={() => navigation("/")}>
             Return to Shop
           </p>
-          <p className="updateBtn" onClick={handleClick}>Update Cart</p>
         </div>
       </div>
       <div className="cartPageBottom">
