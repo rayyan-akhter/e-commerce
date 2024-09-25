@@ -12,29 +12,23 @@ import { SingleProduct } from "./page/singleProduct/singleProduct";
 function App() {
   const [user, setUser] = useState({});
   const [product, setProduct] = useState({});
-  
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-
-    window.addEventListener("resize",(e)=>{
-
-      if (window.innerWidth < 912) setIsMobile(true);
+    window.addEventListener("resize", (e) => {
+      if (window.innerWidth <= 700) setIsMobile(true);
       else setIsMobile(false);
       console.log(e);
-    })
-    if (window.outerWidth < 912) setIsMobile(true);
-      else setIsMobile(false);
-    
+    });
+    if (window.outerWidth <= 700) setIsMobile(true);
+    else setIsMobile(false);
   }, []);
 
   useEffect(() => {
-   
     if (localStorage.getItem("user"))
       return setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
-
-  
 
   return (
     <>
@@ -43,8 +37,8 @@ function App() {
           <Route
             path="/register"
             element={
-              <div >
-                {/* <TopHeader user={user} isMobile={isMobile} /> */}
+              <div>
+                {isMobile && <TopHeader user={user} isMobile={isMobile} />}
                 <Register user={user} setUser={setUser} />
               </div>
             }
@@ -54,8 +48,14 @@ function App() {
             path="/"
             element={
               <>
-                {/* <TopHeader isMobile={isMobile}/> */}
-                <Header user={user} product={product} setUser={setUser} isMobile={isMobile} />
+                {isMobile && <TopHeader user={user} isMobile={isMobile} />}
+
+                <Header
+                  user={user}
+                  product={product}
+                  setUser={setUser}
+                  isMobile={isMobile}
+                />
                 <Home user={user} setUser={setUser} />
               </>
             }
@@ -64,7 +64,8 @@ function App() {
             path="/product/:id"
             element={
               <>
-                {/* <TopHeader isMobile={isMobile}/> */}
+                {isMobile && <TopHeader user={user} isMobile={isMobile} />}
+
                 <Header user={user} setUser={setUser} isMobile={isMobile} />
                 <SingleProduct
                   product={product}
@@ -78,8 +79,9 @@ function App() {
             path="/cart"
             element={
               <>
-                {/* <TopHeader isMobile={isMobile} /> */}
-                <Header user={user} setUser={setUser} isMobile={isMobile}/>
+                {isMobile && <TopHeader user={user} isMobile={isMobile} />}
+
+                <Header user={user} setUser={setUser} isMobile={isMobile} />
                 <Cart product={product} />
               </>
             }
@@ -88,9 +90,10 @@ function App() {
             path="/products"
             element={
               <>
-                {/* <TopHeader isMobile={isMobile} /> */}
+                {isMobile && <TopHeader user={user} isMobile={isMobile} />}
+
                 <Header user={user} setUser={setUser} isMobile={isMobile} />
-               <Product/>
+                <Product />
               </>
             }
           />
@@ -101,4 +104,3 @@ function App() {
 }
 
 export default App;
-

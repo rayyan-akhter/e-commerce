@@ -5,9 +5,9 @@ import {
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
-
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
+import loginImage from "./loginImage.png"
 
 import "./header.css";
 import { IconButton, Snackbar } from "@mui/material";
@@ -73,7 +73,8 @@ const Header = ({ user, setUser, isMobile }) => {
       {!isMobile && (
         <div className="header">
           <div className="left">
-            <h2 className="name">{user.name}</h2>
+            <h2 className="name">Socialify</h2>
+            {/* <img className="headerImg" src={loginImage} alt="" /> */}
           </div>
           <div className="middle">
             {/* <div className="middleLeft">

@@ -1,34 +1,29 @@
-.filters{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 70px;
-    border-bottom:solid 1px gray;
-    padding: 20px  0;
-    align-items: center;
-    justify-content: center;
-    
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 70px;
+  border-bottom: solid 1px gray;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
 }
 
-.heading{
+.heading {
   font-size: 28px;
-  
-
-
 }
 
-.select{
+.select {
   size: 20px;
   height: 20px;
 }
-.middleRight{
+.middleRight {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
 }
-.search{
+.search {
   border: 1px solid hsl(0, 0%, 80%);
-  ;
   border-radius: 4px;
   height: 40px;
   width: 200px;
@@ -36,20 +31,23 @@
   padding-left: 5px;
 }
 
-.search:focus{
+.search:focus {
   border-color: #2684ff;
 }
-.containers{
+.containers {
   display: flex;
   gap: 10px;
 }
-
+.custom-react-select{
+  z-index: -1;
+}
 
 @media (width <= 700px) {
-  .filters{
+  .filters {
     padding: 20px;
+    gap: 10px;
   }
-  .containers{
+  .containers {
     gap: 10px;
     justify-content: space-between;
     display: flex;
