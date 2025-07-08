@@ -5,19 +5,30 @@ import { ClipLoader } from "react-spinners";
 import { BiMinus } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 import { IconButton, Snackbar } from "@mui/material";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineLock, AiOutlineShoppingCart, AiOutlineArrowLeft } from "react-icons/ai";
 
-export const Cart = () => {
+export const Cart = ({ user }) => {
   const [cartProducts, setCartProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [shippingCost, setShippingCost] = useState(150);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [authMessage, setAuthMessage] = useState("");
 
   const [quantity, setQuantity] = useState(1);
-
-
   const navigation = useNavigate();
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("login") === "true";
+    if (!isLoggedIn || !user?.name) {
+      setAuthMessage("Please log in to access your cart");
+      setTimeout(() => {
+        navigation("/register");
+      }, 2000);
+      return;
+    }
+  }, [user, navigation]);
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
@@ -55,22 +66,62 @@ export const Cart = () => {
     setShippingCost(cartTotal < 1000 ? 150 : 0);
   }, [cartTotal]);
 
-
-  if (loading) {
+  // Show authentication message if user is not logged in
+  if (authMessage) {
     return (
-      <div className="loader">
-        <ClipLoader  size={200} />;
+      <div className="auth-message">
+        <div className="auth-message-content">
+          <AiOutlineLock size={48} className="auth-icon" />
+          <h2>Authentication Required</h2>
+          <p>{authMessage}</p>
+          <div className="auth-actions">
+            <button 
+              className="btn btn-primary" 
+              onClick={() => navigation("/register")}
+            >
+              Sign In
+            </button>
+            <button 
+              className="btn btn-outline" 
+              onClick={() => navigation("/")}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
+
+  if (loading) {
+    return (
+      <div className="cart-loader">
+        <div className="loader-container">
+          <ClipLoader size={60} color="var(--primary-color)" />
+          <p className="loading-text">Loading your cart...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!cartDetails?.length) {
     return (
-      <div className="cartPage">
-        <h2>Your Cart is Empty</h2>
-        <button className="updateBtn" onClick={() => navigation("/")}>
-          Return to Shop
-        </button>
-      </div>
+      <section className="cart-section">
+        <div className="container">
+          <div className="empty-cart">
+            <div className="empty-cart-icon">
+              <AiOutlineShoppingCart size={80} />
+            </div>
+            <h2 className="heading-2">Your Cart is Empty</h2>
+            <p className="body-large text-gray-600">
+              Looks like you haven't added any items to your cart yet.
+            </p>
+            <button className="btn btn-primary btn-lg" onClick={() => navigation("/")}>
+              Start Shopping
+            </button>
+          </div>
+        </div>
+      </section>
     );
   }
   
@@ -89,6 +140,7 @@ export const Cart = () => {
       return updatedCart;
     });
   };
+
   const handleClick = () => {
     setOpen(true);
   };
@@ -97,100 +149,155 @@ export const Cart = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 
   const action = (
     <React.Fragment>
-      
       <IconButton
-      sx={{color:"white"}}
+        sx={{color:"white"}}
         aria-label="close"
-        
         onClick={handleClose}
       >
         <AiOutlineClose size={15} />
       </IconButton>
     </React.Fragment>
   );
+
   return (
-    <div className="cartPage">
-      <div className="cartNavigation">
-        <p onClick={() => navigation("/")}>Home </p>
-        <p>/</p>
-        <p> Cart</p>
-      </div>
-      <div className="cartPagetop">
-        <div className="cartProductTitle">
-          <p>Product</p>
-          <p>Price</p>
-          <p>Quantity</p>
-          <p>Subtotal</p>
+    <section className="cart-section">
+      <div className="container">
+        {/* Breadcrumb Navigation */}
+        <div className="breadcrumb">
+          <button 
+            className="breadcrumb-link"
+            onClick={() => navigation("/")}
+          >
+            <AiOutlineArrowLeft size={16} />
+            Back to Shop
+          </button>
+          <span className="breadcrumb-separator">/</span>
+          <span className="breadcrumb-current">Shopping Cart</span>
         </div>
 
-        {cartDetails.map((product) => (
-          <div className="cartProductDetails" key={product.id}>
-            <div className="cartProductInfo">
-              <img className="CartProductImage" src={product.image} alt="" />
-              <p>{product.title}</p>
-            </div>
-            <p className="cartProductPrice">${product.price}</p>
-            <div className="cart-quantity-manage-container">
-            <BiMinus size={28} className="minus" onClick={() => handleQuantityChange(product.id,-1)} />
-              
-            <p className="cartProductQuantity">{product.quantity}</p>
-            <BsPlus
-              size={28}
-              className="plus"
-              onClick={() => handleQuantityChange(product.id,1)}
-            />
-            </div>
-            <p className="cartProductSubTotal">
-              ${product.price * product.quantity}
-            </p>
-          </div>
-        ))}
-        <div className="cartUpdateBtnContainer">
-          <p className="updateBtn" onClick={() => navigation("/")}>
-            Return to Shop
+        {/* Cart Header */}
+        <div className="cart-header">
+          <h1 className="heading-1">Shopping Cart</h1>
+          <p className="body-large text-gray-600">
+            {cartDetails.length} item{cartDetails.length !== 1 ? 's' : ''} in your cart
           </p>
         </div>
-      </div>
-      <div className="cartPageBottom">
-        <div className="cartPageBottomLeft">
-          <input type="text" className="cartCoupon" />
-          <button className="couponBtn" onClick={handleClick}>Apply Coupon</button>
+
+        <div className="cart-content">
+          {/* Cart Items */}
+          <div className="cart-items">
+            <div className="cart-items-header">
+              <div className="cart-header-product">Product</div>
+              <div className="cart-header-price">Price</div>
+              <div className="cart-header-quantity">Quantity</div>
+              <div className="cart-header-subtotal">Subtotal</div>
+            </div>
+
+            {cartDetails.map((product) => (
+              <div className="cart-item" key={product.id}>
+                <div className="cart-item-product">
+                  <img className="cart-item-image" src={product.image} alt={product.title} />
+                  <div className="cart-item-details">
+                    <h3 className="cart-item-title">{product.title}</h3>
+                    <p className="cart-item-category">{product.category}</p>
+                  </div>
+                </div>
+                <div className="cart-item-price">${product.price}</div>
+                <div className="cart-item-quantity">
+                  <button 
+                    className="quantity-btn"
+                    onClick={() => handleQuantityChange(product.id, -1)}
+                    disabled={product.quantity <= 1}
+                  >
+                    <BiMinus size={16} />
+                  </button>
+                  <span className="quantity-value">{product.quantity}</span>
+                  <button 
+                    className="quantity-btn"
+                    onClick={() => handleQuantityChange(product.id, 1)}
+                  >
+                    <BsPlus size={16} />
+                  </button>
+                </div>
+                <div className="cart-item-subtotal">
+                  ${(product.price * product.quantity).toFixed(2)}
+                </div>
+              </div>
+            ))}
+
+            <div className="cart-actions">
+              <button className="btn btn-outline" onClick={() => navigation("/")}>
+                Continue Shopping
+              </button>
+            </div>
+          </div>
+
+          {/* Cart Summary */}
+          <div className="cart-summary">
+            <div className="summary-header">
+              <h3 className="heading-3">Order Summary</h3>
+            </div>
+            
+            <div className="summary-content">
+              <div className="summary-row">
+                <span>Subtotal</span>
+                <span>${cartTotal.toFixed(2)}</span>
+              </div>
+              <div className="summary-row">
+                <span>Shipping</span>
+                <span>{shippingCost === 0 ? 'Free' : `$${shippingCost}`}</span>
+              </div>
+              {shippingCost > 0 && (
+                <div className="summary-note">
+                  <p>Free shipping on orders over $1000</p>
+                </div>
+              )}
+              <div className="summary-divider"></div>
+              <div className="summary-total">
+                <span>Total</span>
+                <span>${(cartTotal + shippingCost).toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div className="summary-actions">
+              <button 
+                className="btn btn-primary btn-lg checkout-btn"
+                onClick={() => navigation("/checkout")}
+              >
+                Proceed to Checkout
+              </button>
+            </div>
+
+            {/* Coupon Section */}
+            <div className="coupon-section">
+              <div className="coupon-input-group">
+                <input 
+                  type="text" 
+                  className="coupon-input" 
+                  placeholder="Enter coupon code"
+                />
+                <button className="btn btn-outline coupon-btn" onClick={handleClick}>
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="cartPageBottomRight">
-          <h3>Cart total</h3>
-          <div className="cartSubTotal">
-            <p>Subtotal:</p>
-            <p>${cartTotal}</p>
-          </div>
-          <hr />
-          <div className="cartSubTotal">
-            <p>Shipping:</p>
-            <p>${shippingCost}</p>
-          </div>
-          <hr />
-          <div className="cartSubTotal">
-            <p>Total:</p>
-            <p>${cartTotal + shippingCost}</p>
-          </div>
-          <div className="CartProcessToCheckOutContainer">
-            <button className="CartProcessToCheckOut" onClick={handleClick}>Proceed to Checkout</button>
-          </div>
-          <Snackbar
-                open={open}
-                autoHideDuration={3000}
-                onClose={handleClose}
-                message="This feature ain't available right now"
-                action={action}
-              />
-        </div>
+
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          message="This feature isn't available right now"
+          action={action}
+        />
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -2,17 +2,32 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 import googleIcon from "./google.png";
 import image from "./loginImage.png";
 import "./register.css";
 
 const Register = ({ user, setUser }) => {
   const navigation = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   const [login, setLogin] = useState({
     name: "",
     email: "",
   });
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("login") === "true";
+    if (isLoggedIn && user?.name) {
+      setIsLoggedIn(true);
+      setRedirecting(true);
+      setTimeout(() => {
+        navigation("/");
+      }, 2000);
+    }
+  }, [user, navigation]);
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -49,13 +64,35 @@ const Register = ({ user, setUser }) => {
     console.log(login);
   }, [login, navigation, setUser]);
 
+  // Show logged in message if user is already authenticated
+  if (isLoggedIn && redirecting) {
+    return (
+      <div className="register">
+        <div className="registerContainer">
+          <div className="auth-success-message">
+            <AiOutlineCheckCircle size={64} className="success-icon" />
+            <h2>Already Logged In</h2>
+            <p>Welcome back, {user?.name}!</p>
+            <p>Redirecting you to the home page...</p>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => navigation("/")}
+            >
+              Go to Home
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   console.log(user);
 
   return (
     <div className="register">
       <div className="registerContainer">
         <div className="registerLeftConntainer">
-          <img src={image} className="registerImage" />
+          <img src={image} className="registerImage" alt="imag"/>
         </div>
         <div className="registerRightConntainer">
           <div className="registerRightTopConntainer ">
