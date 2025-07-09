@@ -411,19 +411,6 @@
   display: inline-block;
 }
 
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  z-index: var(--z-dropdown);
-  min-width: 200px;
-  margin-top: var(--space-1);
-}
 
 .dropdown-item {
   display: block;

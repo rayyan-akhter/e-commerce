@@ -13,8 +13,9 @@ import { useNavigate } from "react-router";
 import { IconButton, Snackbar } from "@mui/material";
 import "./header.css";
 import { useDebounce } from "use-debounce";
+import { BsSun, BsMoon } from "react-icons/bs";
 
-const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen }) => {
+const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen, theme, toggleTheme }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -139,6 +140,15 @@ const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen }) => {
               {/* Navigation */}
               <nav className="header-nav">
                 <div className="nav-actions">
+                  {/* Theme Toggle Button */}
+                  <button
+                    className="icon-btn theme-toggle-btn"
+                    onClick={toggleTheme}
+                    aria-label="Toggle theme"
+                    style={{ marginRight: 12 }}
+                  >
+                    {theme === "dark" ? <BsSun size={22} /> : <BsMoon size={22} />}
+                  </button>
                   {/* User Menu */}
                   <div className="user-menu" ref={dropdownRef}>
               {!isLoggedIn ? (

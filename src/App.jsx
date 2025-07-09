@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import "./styles/design-system.css";
 import Header from "./components/header/header";
 import TopHeader from "./components/topHeader/topHeader";
 import { Cart } from "./page/cart/cart";
 import { Home } from "./page/home/home";
 import { Product } from "./page/products/product";
 import Register from "./page/register/register";
+import Login from "./page/login/login";
 import { SingleProduct } from "./page/singleProduct/singleProduct";
 import Profile from "./page/profile/profile";
 import Checkout from "./page/checkout/checkout";
@@ -17,6 +19,7 @@ function App() {
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [theme, setTheme] = useState("light");
 
   // Improved responsive detection
   useEffect(() => {
@@ -44,6 +47,26 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    // On mount, set theme from localStorage or system
+    const saved = localStorage.getItem("theme");
+    if (saved) {
+      setTheme(saved);
+      document.body.setAttribute("data-theme", saved);
+    } else {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light");
+      document.body.setAttribute("data-theme", prefersDark ? "dark" : "light");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    localStorage.setItem("theme", next);
+    document.body.setAttribute("data-theme", next);
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -60,6 +83,16 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
+          {/* Login Page */}
+          <Route
+            path="/login"
+            element={
+              <div className="login-page">
+                {isMobile && <TopHeader user={user} isMobile={isMobile} />}
+                <Login setUser={setUser} />
+              </div>
+            }
+          />
           {/* Register Page */}
           <Route
             path="/register"
@@ -85,6 +118,8 @@ function App() {
                   isMobile={isMobile}
                   dropDownOpen={dropDownOpen}
                   setDropDownOpen={setDropDownOpen}
+                  theme={theme}
+                  toggleTheme={toggleTheme}
                 />
                 <main className="main-content">
                   <Home user={user} setUser={setUser} />
@@ -105,6 +140,8 @@ function App() {
                   isMobile={isMobile}
                   dropDownOpen={dropDownOpen}
                   setDropDownOpen={setDropDownOpen}
+                  theme={theme}
+                  toggleTheme={toggleTheme}
                 />
                 <main className="main-content">
                   <SingleProduct
@@ -129,6 +166,8 @@ function App() {
                   isMobile={isMobile}
                   dropDownOpen={dropDownOpen}
                   setDropDownOpen={setDropDownOpen}
+                  theme={theme}
+                  toggleTheme={toggleTheme}
                 />
                 <main className="main-content">
                   <Cart product={product} user={user} />
@@ -149,6 +188,8 @@ function App() {
                   isMobile={isMobile}
                   dropDownOpen={dropDownOpen}
                   setDropDownOpen={setDropDownOpen}
+                  theme={theme}
+                  toggleTheme={toggleTheme}
                 />
                 <main className="main-content">
                   <Product user={user} />

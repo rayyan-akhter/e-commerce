@@ -128,6 +128,48 @@
   --container-lg: 1024px;
   --container-xl: 1280px;
   --container-2xl: 1536px;
+
+  --background: #fff;
+  --header-bg: #232f3e;
+  --header-text: #fff;
+  --text: #111;
+  --card-bg: #f3f3f3;
+  --card-border: #e3e6e6;
+  --primary: #232f3e;
+  --primary-hover: #131921;
+  --accent: #febd69;
+  --accent-hover: #f3a847;
+  --border: #d5d9d9;
+  --shadow: 0 2px 8px rgba(34,47,62,0.08);
+  --input-bg: #fff;
+  --input-border: #d5d9d9;
+  --input-text: #111;
+  --transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+[data-theme='dark'] {
+  --background: #232f3e;
+  --header-bg: #131921;
+  --header-text: #fff;
+  --text: #fff;
+  --card-bg: #37475a;
+  --card-border: #232f3e;
+  --primary: #febd69;
+  --primary-hover: #f3a847;
+  --accent: #232f3e;
+  --accent-hover: #131921;
+  --border: #37475a;
+  --shadow: 0 2px 8px rgba(20,23,31,0.18);
+  --input-bg: #232f3e;
+  --input-border: #37475a;
+  --input-text: #fff;
+  --transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+body, .app {
+  background: var(--background);
+  color: var(--text);
+  transition: var(--transition);
 }
 
 /* ===== MODERN CSS RESET ===== */

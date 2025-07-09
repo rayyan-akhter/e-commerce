@@ -1,4 +1,4 @@
-/* Modern Auth Card Styles */
+/* Modern Auth Card Styles for Login Page */
 .auth-bg {
   min-height: 100vh;
   background: var(--gray-50);
@@ -212,4 +212,4 @@
   .auth-footer {
     color: var(--gray-400);
   }
-}
+} 

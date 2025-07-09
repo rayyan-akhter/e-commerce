@@ -11,11 +11,15 @@ const Register = ({ user, setUser }) => {
   const navigation = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const [login, setLogin] = useState({
+  const [register, setRegister] = useState({
     name: "",
     email: "",
+    password: "",
+    confirmPassword: ""
   });
+  const [error, setError] = useState("");
 
   // Check if user is already logged in
   useEffect(() => {
@@ -29,57 +33,85 @@ const Register = ({ user, setUser }) => {
     }
   }, [user, navigation]);
 
+  const handleChange = (e) => {
+    setRegister({ ...register, [e.target.name]: e.target.value });
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    if (!register.name || !register.email || !register.password || !register.confirmPassword) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    if (register.password !== register.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    // Save registration info to localStorage (manual registration)
+    localStorage.setItem("registeredUser", JSON.stringify({
+      name: register.name,
+      email: register.email,
+      password: register.password
+    }));
+    setSuccess(true);
+    setTimeout(() => {
+      navigation("/login");
+    }, 2000);
+  };
+
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       const userInfo = await axios
         .get("https://www.googleapis.com/oauth2/v3/userinfo", {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         })
         .then((res) => res.data);
-
-      setLogin({
-        name: userInfo.name,
-        email: userInfo.email,
-      });
+      // Log in immediately for Google login
+      setUser({ name: userInfo.name, email: userInfo.email });
+      localStorage.setItem("user", JSON.stringify({ name: userInfo.name, email: userInfo.email }));
+      localStorage.setItem("login", true);
+      // Optionally, save Google user as registeredUser for login
+      localStorage.setItem("registeredUser", JSON.stringify({ name: userInfo.name, email: userInfo.email, password: null }));
+      navigation("/");
     },
   });
 
-  useEffect(() => {
-    if (!login.name) return;
-
-    fetch("https://fakestoreapi.com/users/1")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const userWithNewProps = { ...data, ...login };
-        console.log(userWithNewProps, "this is new props");
-        setUser(userWithNewProps);
-        localStorage.setItem("user", JSON.stringify(userWithNewProps));
-      })
-      .catch((error) => console.log(error));
-    localStorage.setItem("login", true);
-    navigation("/");
-    console.log(login);
-  }, [login, navigation, setUser]);
+  // Show success message after manual registration
+  if (success) {
+    return (
+      <div className="auth-bg">
+        <div className="auth-card">
+          <div className="auth-form" style={{ width: '100%' }}>
+            <div className="auth-success-message" style={{ textAlign: 'center', width: '100%' }}>
+              <AiOutlineCheckCircle size={64} className="success-icon" />
+              <h2 className="auth-title">Account created successfully</h2>
+              <p className="auth-subtitle">Redirecting you to the login page...</p>
+              <button className="auth-btn" onClick={() => navigation("/login")}>Go to Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Show logged in message if user is already authenticated
   if (isLoggedIn && redirecting) {
     return (
-      <div className="register">
-        <div className="registerContainer">
-          <div className="auth-success-message">
-            <AiOutlineCheckCircle size={64} className="success-icon" />
-            <h2>Already Logged In</h2>
-            <p>Welcome back, {user?.name}!</p>
-            <p>Redirecting you to the home page...</p>
-            <button 
-              className="btn btn-primary" 
-              onClick={() => navigation("/")}
-            >
-              Go to Home
-            </button>
+      <div className="auth-bg">
+        <div className="auth-card">
+          <div className="auth-form" style={{ width: '100%' }}>
+            <div className="auth-success-message" style={{ textAlign: 'center', width: '100%' }}>
+              <AiOutlineCheckCircle size={64} className="success-icon" />
+              <h2 className="auth-title">Already Logged In</h2>
+              <p className="auth-subtitle">Welcome back, {user?.name}!</p>
+              <p className="auth-subtitle">Redirecting you to the home page...</p>
+              <button 
+                className="auth-btn" 
+                onClick={() => navigation("/")}
+              >
+                Go to Home
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -89,34 +121,30 @@ const Register = ({ user, setUser }) => {
   console.log(user);
 
   return (
-    <div className="register">
-      <div className="registerContainer">
-        <div className="registerLeftConntainer">
-          <img src={image} className="registerImage" alt="imag"/>
+    <div className="auth-bg">
+      <div className="auth-card">
+        <div className="auth-image">
+          <img src={image} alt="register visual" />
         </div>
-        <div className="registerRightConntainer">
-          <div className="registerRightTopConntainer ">
-            <h1>Create an account</h1>
-            <p>Enter your detail below</p>
+        <form className="auth-form" onSubmit={handleRegister}>
+          <h1 className="auth-title">Create an account</h1>
+          <p className="auth-subtitle">Enter your details below</p>
+          <input name="name" placeholder="Name" className="auth-input" value={register.name} onChange={handleChange} />
+          <input name="email" placeholder="Email or phone number" className="auth-input" value={register.email} onChange={handleChange} />
+          <input name="password" placeholder="Password" className="auth-input" type="password" value={register.password} onChange={handleChange} />
+          <input name="confirmPassword" placeholder="Re-enter your password" className="auth-input" type="password" value={register.confirmPassword} onChange={handleChange} />
+          {error && <div className="auth-error">{error}</div>}
+          <button className="auth-btn" type="submit">Create an account</button>
+          <div className="auth-divider"><span>or</span></div>
+          <div onClick={googleLogin} className="auth-google-btn">
+            <img src={googleIcon} alt="googleIcon" style={{ width: 22, height: 22 }} />
+            Sign up with Google
           </div>
-          <div className="registerRightCenterConntainer ">
-            <input placeholder="Name" className="input" />
-            <input placeholder="Email or phone number" className="input" />
-            <input placeholder="Password" className="input" type="password"/>
-            <input placeholder="Re-enter your password" className="input" type="password"/>
+          <div className="auth-footer">
+            Already have an account?
+            <span className="auth-link" onClick={() => navigation("/login")}>Log in</span>
           </div>
-          <div className="registerRightBottomConntainer ">
-            <button className="signiUpBtn">Create an account</button>
-            <div onClick={googleLogin} className="googleBtn">
-              <img src={googleIcon} alt="googleIcon" />
-              Sign up with google
-            </div>
-          </div>
-          <div className="registerRightLoginConntainer">
-            <p>Already have account?</p>
-            <p className="loginBtn">Log in</p>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );
