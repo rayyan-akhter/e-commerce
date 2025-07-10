@@ -13,9 +13,8 @@ import { useNavigate } from "react-router";
 import { IconButton, Snackbar } from "@mui/material";
 import "./header.css";
 import { useDebounce } from "use-debounce";
-import { BsSun, BsMoon } from "react-icons/bs";
 
-const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen, theme, toggleTheme }) => {
+const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -140,15 +139,6 @@ const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen, theme,
               {/* Navigation */}
               <nav className="header-nav">
                 <div className="nav-actions">
-                  {/* Theme Toggle Button */}
-                  <button
-                    className="icon-btn theme-toggle-btn"
-                    onClick={toggleTheme}
-                    aria-label="Toggle theme"
-                    style={{ marginRight: 12 }}
-                  >
-                    {theme === "dark" ? <BsSun size={22} /> : <BsMoon size={22} />}
-                  </button>
                   {/* User Menu */}
                   <div className="user-menu" ref={dropdownRef}>
               {!isLoggedIn ? (
@@ -170,12 +160,17 @@ const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen, theme,
                   {dropDownOpen && (
                     <div className="dropdown">
                             <div className="dropdown-menu">
-                              <button className="dropdown-item">
+                              <button className="dropdown-item" onClick={() => navigation("/profile")}>
                                 <AiOutlineUser size={16} />
                         Profile
                       </button>
-                              <button className="dropdown-item">
+                              <button className="dropdown-item" onClick={() => navigation("/orders")}> 
+                                <AiOutlineShoppingCart size={16} />
                         My Orders
+                      </button>
+                              <button className="dropdown-item" onClick={() => navigation("/wishlist")}> 
+                                <AiOutlineHeart size={16} />
+                        Wishlist
                       </button>
                               <div className="dropdown-divider"></div>
                               <button className="dropdown-item" onClick={logOut}>
@@ -193,7 +188,7 @@ const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen, theme,
                   <div className="action-icons">
                     <button 
                       className="icon-btn tooltip" 
-                onClick={handleClick}
+                      onClick={() => navigation('/wishlist')}
                       aria-label="Wishlist"
                     >
                       <AiOutlineHeart size={24} />
@@ -309,12 +304,26 @@ const Header = ({ user, setUser, isMobile, dropDownOpen, setDropDownOpen, theme,
                   )}
                   
                   <nav className="mobile-nav">
-                    <button className="mobile-nav-item">
+                    <button className="mobile-nav-item" onClick={() => {
+                      navigation("/profile");
+                      toggleMobileMenu();
+                    }}>
                       <AiOutlineUser size={20} />
                       Profile
                     </button>
-                    <button className="mobile-nav-item">
+                    <button className="mobile-nav-item" onClick={() => {
+                      navigation("/orders");
+                      toggleMobileMenu();
+                    }}>
+                      <AiOutlineShoppingCart size={20} />
                       My Orders
+                    </button>
+                    <button className="mobile-nav-item" onClick={() => {
+                      navigation("/wishlist");
+                      toggleMobileMenu();
+                    }}>
+                      <AiOutlineHeart size={20} />
+                      Wishlist
                     </button>
                     <button className="mobile-nav-item">
                       <AiOutlineHeart size={20} />

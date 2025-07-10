@@ -372,6 +372,17 @@
   overflow: hidden;
 }
 
+.product-description {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* Product Rating */
 .product-rating {
   display: flex;
@@ -397,6 +408,12 @@
 .rating-count {
   font-size: var(--text-xs);
   color: var(--gray-500);
+}
+
+.rating-rate {
+  font-size: var(--text-xs);
+  color: var(--gray-700);
+  font-weight: var(--font-medium);
 }
 
 /* Product Price */
@@ -525,6 +542,11 @@
     font-size: var(--text-sm);
   }
   
+  .product-description {
+    font-size: var(--text-xs);
+    -webkit-line-clamp: 2;
+  }
+  
   .current-price {
     font-size: var(--text-base);
   }
@@ -637,6 +659,10 @@
   
   .product-title {
     color: var(--dark-text);
+  }
+  
+  .product-description {
+    color: var(--dark-text-secondary);
   }
   
   .overlay-btn {

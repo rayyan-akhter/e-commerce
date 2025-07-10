@@ -455,7 +455,7 @@
 
 .tooltip-content {
   position: absolute;
-  bottom: 125%;
+  top: 125%;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--gray-900);
@@ -466,6 +466,7 @@
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: all var(--transition-base);
   z-index: var(--z-tooltip);
 }
@@ -473,17 +474,20 @@
 .tooltip-content::after {
   content: "";
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 50%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: var(--gray-900) transparent transparent transparent;
+  border-color: transparent transparent var(--gray-900) transparent;
 }
 
-.tooltip:hover .tooltip-content {
+.tooltip:hover .tooltip-content,
+.tooltip:focus .tooltip-content,
+.tooltip:focus-visible .tooltip-content {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 /* ===== RESPONSIVE COMPONENTS ===== */

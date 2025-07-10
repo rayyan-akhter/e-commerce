@@ -11,17 +11,6 @@ const Checkout = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [currentStep, setCurrentStep] = useState(1);
-  const [addresses, setAddresses] = useState([]);
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [addressForm, setAddressForm] = useState({
-    name: user?.name || '',
-    street: '',
-    city: '',
-    zipcode: ''
-  });
-  const [orderPlaced, setOrderPlaced] = useState(false);
 
   // Check authentication on component mount
   useEffect(() => {
@@ -50,60 +39,6 @@ const Checkout = ({ user }) => {
     setCartItems(cartData);
   }, [user, navigation]);
 
-  // Load addresses from localStorage or default
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('addresses'));
-    if (stored && stored.length) {
-      setAddresses(stored);
-    } else {
-      setAddresses([
-        {
-          name: user?.name || 'User',
-          street: user?.address?.street || '123 Main Street',
-          city: user?.address?.city || 'City',
-          zipcode: user?.address?.zipcode || '12345'
-        }
-      ]);
-    }
-  }, [user]);
-
-  // Save addresses to localStorage when changed
-  useEffect(() => {
-    localStorage.setItem('addresses', JSON.stringify(addresses));
-  }, [addresses]);
-
-  const handleAddressSelect = idx => setSelectedAddressIndex(idx);
-  const handleEdit = idx => {
-    setEditingIndex(idx);
-    setAddressForm(addresses[idx]);
-    setShowAddForm(false);
-  };
-  const handleAddNew = () => {
-    setShowAddForm(true);
-    setEditingIndex(null);
-    setAddressForm({ name: user?.name || '', street: '', city: '', zipcode: '' });
-  };
-  const handleAddressFormChange = e => {
-    setAddressForm({ ...addressForm, [e.target.name]: e.target.value });
-  };
-  const handleAddressFormSave = e => {
-    e.preventDefault();
-    if (!addressForm.name || !addressForm.street || !addressForm.city || !addressForm.zipcode) return;
-    if (editingIndex !== null) {
-      // Edit existing
-      const updated = [...addresses];
-      updated[editingIndex] = addressForm;
-      setAddresses(updated);
-      setEditingIndex(null);
-    } else {
-      // Add new
-      setAddresses([...addresses, addressForm]);
-      setSelectedAddressIndex(addresses.length);
-      setShowAddForm(false);
-    }
-    setAddressForm({ name: user?.name || '', street: '', city: '', zipcode: '' });
-  };
-
   // Show authentication message if user is not logged in
   if (authMessage) {
     return (
@@ -130,12 +65,6 @@ const Checkout = ({ user }) => {
       </div>
     );
   }
-
-  // Calculate totals
-  const totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
-  const shipping = cartItems.length > 0 ? 300 : 0;
-  const total = subtotal + shipping;
 
   return (
     <section className="checkout-section">
@@ -186,8 +115,8 @@ const Checkout = ({ user }) => {
           <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>
             <div className="step-number">3</div>
             <div className="step-label">Review & Place Order</div>
+          </div>
         </div>
-      </div>
 
         <div className="checkout-content">
           {/* Checkout Form */}
@@ -201,27 +130,6 @@ const Checkout = ({ user }) => {
                 </p>
               </div>
               
-              {/* Show items being purchased above address section */}
-              <div className="checkout-items-list" style={{ marginBottom: 32 }}>
-                <h3 className="heading-3">Items in your order</h3>
-                <div className="checkout-items-table">
-                  <div className="checkout-items-header">
-                    <span>Product</span>
-                    <span>Quantity</span>
-                    <span>Price</span>
-                    <span>Subtotal</span>
-                  </div>
-                  {cartItems.map((item, idx) => (
-                    <div className="checkout-item-row" key={idx}>
-                      <span>{item.title || `Item ${idx + 1}`}</span>
-                      <span>{item.quantity}</span>
-                      <span>${(item.price || 0).toFixed(2)}</span>
-                      <span>${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               <div className="address-section">
                 <div className="address-card">
                   <div className="address-header">
@@ -232,61 +140,31 @@ const Checkout = ({ user }) => {
                   </div>
                   
                   <div className="address-options">
-                    {addresses.map((addr, idx) => (
-                      <div className="address-option" key={idx}>
-                        <input
-                          type="radio"
-                          name="address"
-                          id={`address-${idx}`}
-                          checked={selectedAddressIndex === idx}
-                          onChange={() => handleAddressSelect(idx)}
-                        />
-                        <label htmlFor={`address-${idx}`} className="address-label">
-                          <div className="address-details">
-                            <strong>{addr.name}</strong>
-                            <span>{addr.street}</span>
-                            <span>{addr.city}, {addr.zipcode}</span>
-                          </div>
-                        </label>
-                        <button className="btn btn-outline" style={{ marginLeft: 12 }} onClick={() => handleEdit(idx)}>
-                          Edit
-                        </button>
-                      </div>
-                    ))}
-                    <div className="add-address-option" onClick={handleAddNew} style={{ cursor: 'pointer' }}>
+                    <div className="address-option">
+                      <input type="radio" name="address" id="default-address" defaultChecked />
+                      <label htmlFor="default-address" className="address-label">
+                        <div className="address-details">
+                          <strong>{user?.name || 'User'}</strong>
+                          <span>{user?.address?.street || '123 Main Street'}</span>
+                          <span>{user?.address?.city || 'City'}, {user?.address?.zipcode || '12345'}</span>
+                        </div>
+                      </label>
+                    </div>
+                    
+                    <div className="add-address-option">
                       <img src={addAdress_img} alt="Add new address" />
                       <span>Add a new address</span>
                     </div>
                   </div>
                   
-                  {(showAddForm || editingIndex !== null) && (
-                    <form className="address-form" onSubmit={handleAddressFormSave} style={{ marginTop: 16 }}>
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>Name</label>
-                          <input name="name" value={addressForm.name} onChange={handleAddressFormChange} />
-                        </div>
-                        <div className="form-group">
-                          <label>Street</label>
-                          <input name="street" value={addressForm.street} onChange={handleAddressFormChange} />
-                        </div>
-                        <div className="form-group">
-                          <label>City</label>
-                          <input name="city" value={addressForm.city} onChange={handleAddressFormChange} />
-                        </div>
-                        <div className="form-group">
-                          <label>Zipcode</label>
-                          <input name="zipcode" value={addressForm.zipcode} onChange={handleAddressFormChange} />
-                        </div>
-                      </div>
-                      <button className="btn btn-primary" type="submit" style={{ marginTop: 8 }}>
-                        Save Address
-                      </button>
-                      <button className="btn btn-outline" type="button" style={{ marginLeft: 8 }} onClick={() => { setShowAddForm(false); setEditingIndex(null); }}>
-                        Cancel
-                      </button>
-                    </form>
-                  )}
+                  <div className="address-actions">
+                    <button 
+                      className="btn btn-primary"
+                      onClick={() => setCurrentStep(2)}
+                    >
+                      Use This Address
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -327,8 +205,8 @@ const Checkout = ({ user }) => {
                           <label>CVV</label>
                           <input type="text" placeholder="123" />
                         </div>
+                      </div>
                     </div>
-                  </div>
                   </div>
                 </div>
               </div>
@@ -383,20 +261,16 @@ const Checkout = ({ user }) => {
               
               <div className="summary-totals">
                 <div className="summary-row">
-                  <span>Total Items</span>
-                  <span>{totalItems}</span>
-                </div>
-                <div className="summary-row">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>${cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>Free</span>
                 </div>
                 <div className="summary-row total">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>${cartTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -418,8 +292,27 @@ const Checkout = ({ user }) => {
                   Review Order
                 </button>
               )}
-              {currentStep === 3 && !orderPlaced && (
-                <button className="btn btn-primary btn-lg checkout-btn" onClick={() => setOrderPlaced(true)}>
+              {currentStep === 3 && (
+                <button 
+                  className="btn btn-primary btn-lg checkout-btn"
+                  onClick={() => {
+                    // Save order to localStorage
+                    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+                    const newOrder = {
+                      id: Date.now(),
+                      user: user?.email || user?.name || 'guest',
+                      items: cartItems,
+                      total: cartTotal,
+                      date: new Date().toISOString(),
+                    };
+                    orders.push(newOrder);
+                    localStorage.setItem("orders", JSON.stringify(orders));
+                    // Clear cart
+                    localStorage.removeItem("cart");
+                    // Redirect to orders page
+                    navigation("/orders");
+                  }}
+                >
                   <AiOutlineCheckCircle size={20} />
                   Place Order
                 </button>
@@ -428,16 +321,6 @@ const Checkout = ({ user }) => {
           </div>
         </div>
       </div>
-      {orderPlaced && (
-        <div className="order-placed-overlay">
-          <div className="order-placed-card">
-            <AiOutlineCheckCircle size={64} className="order-placed-icon" />
-            <h2 className="auth-title">Your order has been placed!</h2>
-            <p className="auth-subtitle">Thank you for shopping with us.</p>
-            <button className="auth-btn" onClick={() => navigation("/")}>Go to Home</button>
-      </div>
-    </div>
-      )}
     </section>
   );
 };

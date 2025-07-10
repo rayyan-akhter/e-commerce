@@ -85,8 +85,45 @@ export const SingleProduct = ({ user }) => {
   };
 
   const handleWishlist = () => {
-    // TODO: Implement wishlist functionality
-    console.log("Added to wishlist:", product.title);
+    const isLoggedIn = localStorage.getItem("login") === "true";
+    
+    if (!isLoggedIn || !user?.name) {
+      setShowAuthMessage(true);
+      setTimeout(() => {
+        setShowAuthMessage(false);
+        navigation("/register");
+      }, 2000);
+      return;
+    }
+    
+    // Get current wishlist
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    
+    // Check if product is already in wishlist
+    const existingItem = wishlist.find(
+      item => item.productId === product.id && 
+      (item.user === user?.email || item.user === user?.name)
+    );
+    
+    if (existingItem) {
+      // Remove from wishlist
+      const updatedWishlist = wishlist.filter(
+        item => !(item.productId === product.id && 
+        (item.user === user?.email || item.user === user?.name))
+      );
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      alert("Removed from wishlist!");
+    } else {
+      // Add to wishlist
+      const wishlistItem = {
+        productId: product.id,
+        user: user?.email || user?.name,
+        ...product
+      };
+      wishlist.push(wishlistItem);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      alert("Added to wishlist!");
+    }
   };
 
   if (loading) {

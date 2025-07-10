@@ -1,0 +1,225 @@
+/* ===== ORDERS PAGE STYLES ===== */
+.orders-page {
+  min-height: 100vh;
+  background: var(--gray-50);
+  padding: var(--space-8) 0;
+}
+
+.orders-header {
+  text-align: center;
+  margin-bottom: var(--space-10);
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  color: var(--gray-700);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.back-button:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-300);
+  color: var(--gray-900);
+}
+
+.orders-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+}
+
+.orders-subtitle {
+  font-size: var(--text-lg);
+  color: var(--gray-600);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.order-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-100);
+  padding: var(--space-6);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+.order-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gray-200);
+}
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-base);
+  color: var(--gray-700);
+}
+.order-date {
+  font-weight: var(--font-medium);
+}
+.order-total {
+  font-weight: var(--font-bold);
+  color: var(--primary-color);
+}
+.order-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.order-item {
+  background: var(--primary-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 120px;
+  font-size: var(--text-sm);
+  color: var(--gray-800);
+}
+.item-name {
+  font-weight: var(--font-semibold);
+}
+.item-qty {
+  color: var(--gray-600);
+}
+.item-price {
+  color: var(--primary-color);
+  font-weight: var(--font-medium);
+}
+
+.orders-empty {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  background: var(--gray-50);
+}
+.orders-empty-icon {
+  color: var(--primary-color);
+  margin-bottom: var(--space-2);
+}
+.orders-empty h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+}
+.orders-empty p {
+  color: var(--gray-600);
+  font-size: var(--text-base);
+}
+
+.orders-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+  color: var(--gray-600);
+}
+
+@media (max-width: 768px) {
+  .orders-page {
+    padding: var(--space-4) 0;
+  }
+  .orders-header {
+    margin-bottom: var(--space-6);
+    padding: 0 var(--space-4);
+  }
+  .back-button {
+    position: static;
+    transform: none;
+    margin-bottom: var(--space-4);
+    align-self: flex-start;
+  }
+  .orders-title {
+    font-size: var(--text-2xl);
+  }
+  .orders-list {
+    gap: var(--space-6);
+    padding: 0 var(--space-2);
+  }
+  .order-card {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .orders-header {
+    padding: 0 var(--space-2);
+  }
+  .orders-list {
+    padding: 0 var(--space-1);
+  }
+  .order-card {
+    padding: var(--space-3);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .orders-page {
+    background: var(--dark-bg);
+  }
+  .order-card {
+    background: var(--dark-surface);
+    border-color: var(--dark-border);
+  }
+  .order-card:hover {
+    border-color: var(--gray-600);
+  }
+  .orders-title {
+    color: var(--dark-text);
+  }
+  .orders-subtitle {
+    color: var(--dark-text-secondary);
+  }
+  .order-meta {
+    color: var(--dark-text-secondary);
+  }
+  .order-total {
+    color: var(--primary-color);
+  }
+  .order-item {
+    background: var(--primary-color-alpha);
+    color: var(--dark-text);
+  }
+  .orders-empty {
+    background: var(--dark-bg);
+  }
+  .orders-empty h2 {
+    color: var(--dark-text);
+  }
+  .orders-empty p {
+    color: var(--dark-text-secondary);
+  }
+  .orders-loading {
+    color: var(--dark-text-secondary);
+  }
+} 

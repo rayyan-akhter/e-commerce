@@ -636,32 +636,3 @@
     background-color: var(--dark-bg);
   }
 }
-
-.theme-toggle-btn {
-  background: none;
-  border: none;
-  color: var(--primary);
-  border-radius: var(--radius-lg);
-  transition: background 0.18s, color 0.18s;
-  margin-right: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  font-size: 1.2rem;
-}
-.theme-toggle-btn:hover {
-  background: var(--primary-color-alpha, #f3f3f3);
-  color: var(--accent);
-}
-@media (prefers-color-scheme: dark) {
-  .theme-toggle-btn {
-    color: var(--primary);
-    background: none;
-  }
-  .theme-toggle-btn:hover {
-    background: var(--primary-color-alpha, #37475a);
-    color: var(--accent);
-  }
-}

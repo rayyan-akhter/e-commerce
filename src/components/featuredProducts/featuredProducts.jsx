@@ -1,56 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlineShoppingCart, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from "react-router";
-import "./sale.css";
+import "./featuredProducts.css";
 
-const Sale = () => {
+const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState({
-    hours: 4,
-    minutes: 45,
-    seconds: 55
-  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    const productsData = async () => {
+    const fetchProducts = async () => {
       setLoading(true);
       try {
         const response = await fetch("https://fakestoreapi.com/products");
         const data = await response.json();
-        setProducts(data);
+        // Select a mix of products from different categories
+        const featuredProducts = data.filter((_, index) => 
+          index % 3 === 0 || index % 5 === 0
+        ).slice(0, 8);
+        setProducts(featuredProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
     };
-    productsData();
+    fetchProducts();
   }, []);
-
-  // Countdown timer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prevTime => {
-        if (prevTime.seconds > 0) {
-          return { ...prevTime, seconds: prevTime.seconds - 1 };
-        } else if (prevTime.minutes > 0) {
-          return { ...prevTime, minutes: prevTime.minutes - 1, seconds: 59 };
-        } else if (prevTime.hours > 0) {
-          return { hours: prevTime.hours - 1, minutes: 59, seconds: 59 };
-        } else {
-          return { hours: 0, minutes: 0, seconds: 0 };
-        }
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (time) => {
-    return time.toString().padStart(2, '0');
-  };
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
@@ -94,56 +70,31 @@ const Sale = () => {
 
   if (loading) {
     return (
-      <div className="sale-loader">
+      <div className="featured-loader">
         <div className="loader-container">
           <div className="loading-spinner"></div>
-          <p className="loading-text">Loading flash sales...</p>
+          <p className="loading-text">Loading featured products...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <section className="flash-sale-section">
+    <section className="featured-section">
       <div className="container">
-        {/* Flash Sale Header */}
-        <div className="sale-header">
-          <div className="sale-badge">
-            <div className="sale-indicator"></div>
-            <span className="sale-label">Flash Sale</span>
-          </div>
-          <h2 className="heading-2">Today's Deals</h2>
+        {/* Featured Products Header */}
+        <div className="featured-header">
+          <h2 className="heading-2">Featured Products</h2>
           <p className="body-large text-gray-600">
-            Limited time offers on trending products
+            Discover our handpicked selection of premium products
           </p>
         </div>
 
-        {/* Countdown Timer */}
-        <div className="countdown-timer">
-          <div className="timer-label">Sale Ends In:</div>
-          <div className="timer-display">
-            <div className="timer-unit">
-              <span className="timer-value">{formatTime(timeLeft.hours)}</span>
-              <span className="timer-label">Hours</span>
-            </div>
-            <div className="timer-separator">:</div>
-            <div className="timer-unit">
-              <span className="timer-value">{formatTime(timeLeft.minutes)}</span>
-              <span className="timer-label">Minutes</span>
-            </div>
-            <div className="timer-separator">:</div>
-            <div className="timer-unit">
-              <span className="timer-value">{formatTime(timeLeft.seconds)}</span>
-              <span className="timer-label">Seconds</span>
-            </div>
-          </div>
-        </div>
-
         {/* Products Grid */}
-        <div className="products-grid">
-          {products.slice(0, 6).map((product, index) => (
+        <div className="featured-products-grid">
+          {products.map((product) => (
             <div
-              className="product-card"
+              className="featured-product-card"
               key={product.id}
               onClick={() => navigate(`/product/${product.id}`)}
             >
@@ -174,7 +125,7 @@ const Sale = () => {
                   </button>
                 </div>
                 <div className="product-badge">
-                  <span className="discount-badge">-20%</span>
+                  <span className="category-badge">{product.category}</span>
                 </div>
               </div>
 
@@ -187,8 +138,8 @@ const Sale = () => {
                 </h3>
                 
                 <p className="product-description" title={product.description}>
-                  {product.description.length > 100 
-                    ? product.description.substring(0, 100) + '...' 
+                  {product.description.length > 120 
+                    ? product.description.substring(0, 120) + '...' 
                     : product.description
                   }
                 </p>
@@ -210,7 +161,6 @@ const Sale = () => {
 
                 <div className="product-price">
                   <span className="current-price">${product.price}</span>
-                  <span className="original-price">${(product.price * 1.25).toFixed(2)}</span>
                 </div>
 
                 <button 
@@ -239,4 +189,4 @@ const Sale = () => {
   );
 };
 
-export default Sale;
+export default FeaturedProducts; 

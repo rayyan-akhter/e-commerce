@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Category from "../../components/categories/Category";
 import Sale from "../../components/sale/sale";
+import FeaturedProducts from "../../components/featuredProducts/featuredProducts";
 
 export const Home = ({ user, setUser }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -19,6 +20,7 @@ export const Home = ({ user, setUser }) => {
     <>
       <Category isMobile={isMobile} />
       <Sale />
+      <FeaturedProducts />
     </>
   );
 };
